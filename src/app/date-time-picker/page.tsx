@@ -245,26 +245,26 @@ export default function EventCreatorPage() {
 
   // --- RENDER ---
   return (
-    <div className="bg-black text-white p-4 sm:p-8 flex justify-center pt-16">
-      <Card className="w-full max-w-3xl bg-black border-gray-800">
-        <CardHeader className="p-6 border-b border-gray-800">
-          <CardTitle className="text-white text-2xl font-semibold">Date & Time Generator</CardTitle>
-          <CardDescription className="text-gray-400">
+    <div className="bg-background text-foreground p-4 sm:p-8 flex justify-center pt-16">
+      <Card className="w-full max-w-3xl bg-background border-border">
+        <CardHeader className="p-6 border-b border-border">
+          <CardTitle className="text-foreground text-2xl font-semibold">Date & Time Generator</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Generate SFDC date/time formats or calendar event links.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-2 bg-gray-900">
+            <TabsList className="grid w-full grid-cols-2 bg-card">
               <TabsTrigger 
                 value="sfdc"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-white"
+                className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
               >
                 SFDC Date/Time
               </TabsTrigger>
               <TabsTrigger
                 value="calendar"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-white"
+                className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
               >
                 Calendar Event
               </TabsTrigger>
@@ -274,7 +274,7 @@ export default function EventCreatorPage() {
             <TabsContent value="sfdc" className="mt-6">
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="sfdc-date" className="text-gray-300 text-sm font-medium">
+                  <Label htmlFor="sfdc-date" className="text-muted-foreground text-sm font-medium">
                     Date
                   </Label>
                   <Input
@@ -282,20 +282,20 @@ export default function EventCreatorPage() {
                     type="date"
                     value={sfdcDate ? sfdcDate.toISOString().split("T")[0] : ""}
                     onChange={(e) => setSfdcDate(e.target.value ? new Date(e.target.value) : undefined)}
-                    className="bg-gray-900 border-gray-700 text-white [color-scheme:dark] mt-1"
+                    className="bg-card border-input text-foreground [color-scheme:dark] mt-1"
                   />
                 </div>
 
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <Label htmlFor="sfdc-hour" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="sfdc-hour" className="text-muted-foreground text-sm font-medium">
                       Hour
                     </Label>
                     <Select value={sfdcHour} onValueChange={setSfdcHour}>
-                      <SelectTrigger id="sfdc-hour" className="bg-gray-900 border-gray-700 text-white mt-1">
+                      <SelectTrigger id="sfdc-hour" className="bg-card border-input text-foreground mt-1">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700 text-white">
+                      <SelectContent className="bg-card border-input text-foreground">
                         {hours.map((h) => (
                           <SelectItem key={h} value={h}>
                             {h}
@@ -305,14 +305,14 @@ export default function EventCreatorPage() {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="sfdc-minute" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="sfdc-minute" className="text-muted-foreground text-sm font-medium">
                       Minute
                     </Label>
                     <Select value={sfdcMinute} onValueChange={setSfdcMinute}>
-                      <SelectTrigger id="sfdc-minute" className="bg-gray-900 border-gray-700 text-white mt-1">
+                      <SelectTrigger id="sfdc-minute" className="bg-card border-input text-foreground mt-1">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700 text-white">
+                      <SelectContent className="bg-card border-input text-foreground">
                         {minutes.map((m) => (
                           <SelectItem key={m} value={m}>
                             {m}
@@ -322,14 +322,14 @@ export default function EventCreatorPage() {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="sfdc-ampm" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="sfdc-ampm" className="text-muted-foreground text-sm font-medium">
                       AM/PM
                     </Label>
                     <Select value={sfdcAmPm} onValueChange={setSfdcAmPm}>
-                      <SelectTrigger id="sfdc-ampm" className="bg-gray-900 border-gray-700 text-white mt-1">
+                      <SelectTrigger id="sfdc-ampm" className="bg-card border-input text-foreground mt-1">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700 text-white">
+                      <SelectContent className="bg-card border-input text-foreground">
                         <SelectItem value="AM">AM</SelectItem>
                         <SelectItem value="PM">PM</SelectItem>
                       </SelectContent>
@@ -339,34 +339,34 @@ export default function EventCreatorPage() {
 
                 <Button
                   onClick={handleGenerateSfdc}
-                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-white h-12 text-base font-medium mt-6"
+                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-foreground h-12 text-base font-medium mt-6"
                 >
                   Generate SFDC Format
                 </Button>
 
                 {sfdcOutput && (
                   <div className="mt-6">
-                    <Label className="text-gray-300 text-sm font-medium">SFDC Date/Time Format</Label>
+                    <Label className="text-muted-foreground text-sm font-medium">SFDC Date/Time Format</Label>
                     <div className="flex items-center gap-2 mt-2">
                       <Input
                         readOnly
                         value={sfdcOutput}
-                        className="bg-gray-900 border-gray-700 text-white font-mono text-lg"
+                        className="bg-card border-input text-foreground font-mono text-lg"
                       />
                       <Button
                         size="icon"
                         variant="outline"
                         onClick={() => handleCopy(sfdcOutput, "sfdc")}
-                        className="hover:bg-gray-800 border-gray-700"
+                        className="hover:bg-accent border-input"
                       >
                         {copied === "sfdc" ? (
                           <Check className="h-4 w-4 text-green-500" />
                         ) : (
-                          <Clipboard className="h-4 w-4 text-gray-400" />
+                          <Clipboard className="h-4 w-4 text-muted-foreground" />
                         )}
                       </Button>
                     </div>
-                    <p className="text-gray-500 text-xs mt-2">Format: YYYY-MM-DDTHH:MM:SSZ</p>
+                    <p className="text-muted-foreground text-xs mt-2">Format: YYYY-MM-DDTHH:MM:SSZ</p>
                   </div>
                 )}
               </div>
@@ -378,27 +378,27 @@ export default function EventCreatorPage() {
                 {/* Column 1: Event Details */}
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="event-name" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="event-name" className="text-muted-foreground text-sm font-medium">
                       Event Name
                     </Label>
                     <Input
                       id="event-name"
                       value={eventName}
                       onChange={(e) => setEventName(e.target.value)}
-                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 mt-1"
+                      className="bg-card border-input text-foreground placeholder:text-muted-foreground mt-1"
                       placeholder="e.g., VIP Dinner with Vercel Team at The Dark Mode"
                     />
                     {errors.eventName && <p className="text-red-500 text-sm mt-1">{errors.eventName}</p>}
                   </div>
                   <div>
-                    <Label htmlFor="description" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="description" className="text-muted-foreground text-sm font-medium">
                       Description
                     </Label>
                     <Textarea
                       id="description"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 mt-1"
+                      className="bg-card border-input text-foreground placeholder:text-muted-foreground mt-1"
                       placeholder="e.g., The body of the invite (venue info, links, etc.)."
                       rows={5}
                     />
@@ -408,7 +408,7 @@ export default function EventCreatorPage() {
                 {/* Column 2: Time & Date Details */}
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="date" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="date" className="text-muted-foreground text-sm font-medium">
                       Date
                     </Label>
                     <Input
@@ -416,7 +416,7 @@ export default function EventCreatorPage() {
                       type="date"
                       value={date ? date.toISOString().split("T")[0] : ""}
                       onChange={(e) => setDate(e.target.value ? new Date(e.target.value) : undefined)}
-                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 [color-scheme:dark] mt-1"
+                      className="bg-card border-input text-foreground placeholder:text-muted-foreground [color-scheme:dark] mt-1"
                       placeholder="mm/dd/yyyy"
                     />
                     {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date}</p>}
@@ -424,14 +424,14 @@ export default function EventCreatorPage() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <Label htmlFor="hour" className="text-gray-300 text-sm font-medium">
+                      <Label htmlFor="hour" className="text-muted-foreground text-sm font-medium">
                         Hour
                       </Label>
                       <Select value={hour} onValueChange={setHour}>
-                        <SelectTrigger id="hour" className="bg-gray-900 border-gray-700 text-white mt-1">
+                        <SelectTrigger id="hour" className="bg-card border-input text-foreground mt-1">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-900 border-gray-700 text-white">
+                        <SelectContent className="bg-card border-input text-foreground">
                           {hours.map((h) => (
                             <SelectItem key={h} value={h}>
                               {h}
@@ -441,14 +441,14 @@ export default function EventCreatorPage() {
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="minute" className="text-gray-300 text-sm font-medium">
+                      <Label htmlFor="minute" className="text-muted-foreground text-sm font-medium">
                         Minute
                       </Label>
                       <Select value={minute} onValueChange={setMinute}>
-                        <SelectTrigger id="minute" className="bg-gray-900 border-gray-700 text-white mt-1">
+                        <SelectTrigger id="minute" className="bg-card border-input text-foreground mt-1">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-900 border-gray-700 text-white">
+                        <SelectContent className="bg-card border-input text-foreground">
                           {minutes.map((m) => (
                             <SelectItem key={m} value={m}>
                               {m}
@@ -458,14 +458,14 @@ export default function EventCreatorPage() {
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="ampm" className="text-gray-300 text-sm font-medium">
+                      <Label htmlFor="ampm" className="text-muted-foreground text-sm font-medium">
                         AM/PM
                       </Label>
                       <Select value={ampm} onValueChange={setAmPm}>
-                        <SelectTrigger id="ampm" className="bg-gray-900 border-gray-700 text-white mt-1">
+                        <SelectTrigger id="ampm" className="bg-card border-input text-foreground mt-1">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-900 border-gray-700 text-white">
+                        <SelectContent className="bg-card border-input text-foreground">
                           <SelectItem value="AM">AM</SelectItem>
                           <SelectItem value="PM">PM</SelectItem>
                         </SelectContent>
@@ -475,7 +475,7 @@ export default function EventCreatorPage() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <Label htmlFor="timezone" className="text-gray-300 text-sm font-medium">
+                      <Label htmlFor="timezone" className="text-muted-foreground text-sm font-medium">
                         Timezone
                       </Label>
                       <Popover open={timezonePopoverOpen} onOpenChange={setTimezonePopoverOpen}>
@@ -484,7 +484,7 @@ export default function EventCreatorPage() {
                             variant="outline"
                             role="combobox"
                             aria-expanded={timezonePopoverOpen}
-                            className="w-full justify-between bg-gray-900 border-gray-700 text-white hover:bg-gray-800 mt-1"
+                            className="w-full justify-between bg-card border-input text-foreground hover:bg-accent mt-1"
                           >
                             <span className="truncate">
                               {timezone
@@ -494,11 +494,11 @@ export default function EventCreatorPage() {
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-[--radix-popover-trigger-width] p-0 bg-gray-900 border-gray-700">
-                          <Command className="bg-gray-900">
+                        <PopoverContent className="w-[--radix-popover-trigger-width] p-0 bg-card border-input">
+                          <Command className="bg-card">
                             <CommandInput
                               placeholder="Search timezone..."
-                              className="border-gray-700 text-white"
+                              className="border-input text-foreground"
                             />
                             <CommandList>
                               <CommandEmpty>No timezone found.</CommandEmpty>
@@ -547,7 +547,7 @@ export default function EventCreatorPage() {
                       {errors.timezone && <p className="text-red-500 text-sm mt-1">{errors.timezone}</p>}
                     </div>
                     <div>
-                      <Label htmlFor="duration" className="text-gray-300 text-sm font-medium">
+                      <Label htmlFor="duration" className="text-muted-foreground text-sm font-medium">
                         Duration (minutes)
                       </Label>
                       <Input
@@ -555,7 +555,7 @@ export default function EventCreatorPage() {
                         type="number"
                         value={duration}
                         onChange={(e) => setDuration(e.target.value)}
-                        className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 mt-1"
+                        className="bg-card border-input text-foreground placeholder:text-muted-foreground mt-1"
                         min="1"
                       />
                       {errors.duration && <p className="text-red-500 text-sm mt-1">{errors.duration}</p>}
@@ -567,7 +567,7 @@ export default function EventCreatorPage() {
               <div className="mt-8">
                 <Button
                   onClick={handleGenerate}
-                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-white h-12 text-base font-medium flex items-center justify-center"
+                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-foreground h-12 text-base font-medium flex items-center justify-center"
                 >
                   <Sparkles className="mr-2 h-5 w-5" />
                   Generate Links
@@ -577,118 +577,118 @@ export default function EventCreatorPage() {
               {generatedOutput && (
                 <div className="mt-8">
                   <Tabs defaultValue="links" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3 bg-gray-900">
+                    <TabsList className="grid w-full grid-cols-3 bg-card">
                       <TabsTrigger
                         value="links"
-                        className="data-[state=active]:bg-gray-800 data-[state=active]:text-white"
+                        className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
                       >
                         Calendar Links
                       </TabsTrigger>
                       <TabsTrigger
                         value="datetime"
-                        className="data-[state=active]:bg-gray-800 data-[state=active]:text-white"
+                        className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
                       >
                         Date & Time
                       </TabsTrigger>
-                      <TabsTrigger value="iso" className="data-[state=active]:bg-gray-800 data-[state=active]:text-white">
+                      <TabsTrigger value="iso" className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground">
                         ISO Datetime
                       </TabsTrigger>
                     </TabsList>
-                    <TabsContent value="links" className="mt-4 p-4 bg-gray-900/50 rounded-md border border-gray-800">
+                    <TabsContent value="links" className="mt-4 p-4 bg-card/50 rounded-md border border-border">
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-gray-300 text-sm font-medium">Google Calendar</Label>
+                          <Label className="text-muted-foreground text-sm font-medium">Google Calendar</Label>
                           <div className="flex items-center gap-2 mt-1">
                             <Input
                               readOnly
                               value={generatedOutput.googleLink}
-                              className="bg-gray-900 border-gray-700 text-white truncate"
+                              className="bg-card border-input text-foreground truncate"
                             />
                             <Button
                               size="icon"
                               variant="outline"
                               onClick={() => handleCopy(generatedOutput.googleLink, "google")}
-                              className="hover:bg-gray-800 border-gray-700"
+                              className="hover:bg-accent border-input"
                             >
                               {copied === "google" ? (
                                 <Check className="h-4 w-4 text-green-500" />
                               ) : (
-                                <Clipboard className="h-4 w-4 text-gray-400" />
+                                <Clipboard className="h-4 w-4 text-muted-foreground" />
                               )}
                             </Button>
                           </div>
                         </div>
                         <div>
-                          <Label className="text-gray-300 text-sm font-medium">Agical (.ics file)</Label>
+                          <Label className="text-muted-foreground text-sm font-medium">Agical (.ics file)</Label>
                           <div className="flex items-center gap-2 mt-1">
                             <Input
                               readOnly
                               value={generatedOutput.agicalLink}
-                              className="bg-gray-900 border-gray-700 text-white truncate"
+                              className="bg-card border-input text-foreground truncate"
                             />
                             <Button
                               size="icon"
                               variant="outline"
                               onClick={() => handleCopy(generatedOutput.agicalLink, "agical")}
-                              className="hover:bg-gray-800 border-gray-700"
+                              className="hover:bg-accent border-input"
                             >
                               {copied === "agical" ? (
                                 <Check className="h-4 w-4 text-green-500" />
                               ) : (
-                                <Clipboard className="h-4 w-4 text-gray-400" />
+                                <Clipboard className="h-4 w-4 text-muted-foreground" />
                               )}
                             </Button>
                           </div>
                         </div>
                       </div>
                     </TabsContent>
-                    <TabsContent value="datetime" className="mt-4 p-4 bg-gray-900/50 rounded-md border border-gray-800">
+                    <TabsContent value="datetime" className="mt-4 p-4 bg-card/50 rounded-md border border-border">
                       <div className="space-y-4">
                         <div>
-                          <Label htmlFor="custom-format" className="text-gray-300 text-sm font-medium">
+                          <Label htmlFor="custom-format" className="text-muted-foreground text-sm font-medium">
                             Custom Format
                           </Label>
                           <Input
                             id="custom-format"
                             value={customFormat}
                             onChange={(e) => setCustomFormat(e.target.value)}
-                            className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 mt-1 font-mono"
+                            className="bg-card border-input text-foreground placeholder:text-muted-foreground mt-1 font-mono"
                             placeholder="YYYY-MM-DD HH:mm:ss"
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 text-sm font-medium">Formatted Date & Time</Label>
+                          <Label className="text-muted-foreground text-sm font-medium">Formatted Date & Time</Label>
                           <div className="flex items-center gap-2 mt-1">
                             <Input
                               readOnly
                               value={generatedOutput.formattedDateTime}
-                              className="bg-gray-900 border-gray-700 text-white truncate font-mono"
+                              className="bg-card border-input text-foreground truncate font-mono"
                             />
                             <Button
                               size="icon"
                               variant="outline"
                               onClick={() => handleCopy(generatedOutput.formattedDateTime, "datetime")}
-                              className="hover:bg-gray-800 border-gray-700"
+                              className="hover:bg-accent border-input"
                             >
                               {copied === "datetime" ? (
                                 <Check className="h-4 w-4 text-green-500" />
                               ) : (
-                                <Clipboard className="h-4 w-4 text-gray-400" />
+                                <Clipboard className="h-4 w-4 text-muted-foreground" />
                               )}
                             </Button>
                           </div>
                         </div>
                       </div>
                     </TabsContent>
-                    <TabsContent value="iso" className="mt-4 p-4 bg-gray-900/50 rounded-md border border-gray-800">
-                      <div className="space-y-4 font-mono text-sm text-gray-300">
+                    <TabsContent value="iso" className="mt-4 p-4 bg-card/50 rounded-md border border-border">
+                      <div className="space-y-4 font-mono text-sm text-muted-foreground">
                         <div>
-                          <p className="font-semibold text-white">Start UTC:</p>
-                          <p className="bg-gray-900 border border-gray-700 p-2 rounded mt-1">{generatedOutput.isoStart}</p>
+                          <p className="font-semibold text-foreground">Start UTC:</p>
+                          <p className="bg-card border border-input p-2 rounded mt-1">{generatedOutput.isoStart}</p>
                         </div>
                         <div>
-                          <p className="font-semibold text-white">End UTC:</p>
-                          <p className="bg-gray-900 border border-gray-700 p-2 rounded mt-1">{generatedOutput.isoEnd}</p>
+                          <p className="font-semibold text-foreground">End UTC:</p>
+                          <p className="bg-card border border-input p-2 rounded mt-1">{generatedOutput.isoEnd}</p>
                         </div>
                       </div>
                     </TabsContent>
