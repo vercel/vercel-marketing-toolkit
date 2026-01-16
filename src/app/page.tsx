@@ -75,9 +75,7 @@ export default function Home() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
         {/* Hero Section */}
         <div className="text-center mb-16 space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-foreground/10 to-foreground/5 mb-4">
-            <span className="text-3xl">▲</span>
-          </div>
+          <span className="text-6xl inline-block mb-4">▲</span>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
             Vercel Marketing Toolkit
           </h1>
