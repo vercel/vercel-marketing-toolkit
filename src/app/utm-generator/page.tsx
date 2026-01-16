@@ -34,7 +34,9 @@ export default function UTMGenerator() {
   const [utmMedium, setUtmMedium] = useState("")
   const [utmCampaign, setUtmCampaign] = useState("")
   const [generatedUrl, setGeneratedUrl] = useState("")
+  const [queryString, setQueryString] = useState("")
   const [isCopied, setIsCopied] = useState(false)
+  const [isQueryCopied, setIsQueryCopied] = useState(false)
   const { toast } = useToast()
 
   const generateUrl = () => {
@@ -45,6 +47,7 @@ export default function UTMGenerator() {
         variant: "destructive",
       })
       setGeneratedUrl("")
+      setQueryString("")
       return
     }
 
@@ -53,8 +56,10 @@ export default function UTMGenerator() {
       utm_source: utmSource,
       utm_campaign: utmCampaign
     })
-    const url = `https://${baseUrl}${baseUrl.includes('?') ? '&' : '?'}${params.toString()}`
+    const queryStr = params.toString()
+    const url = `https://${baseUrl}${baseUrl.includes('?') ? '&' : '?'}${queryStr}`
     setGeneratedUrl(url)
+    setQueryString(queryStr)
   }
 
   const handleCopy = () => {
@@ -62,9 +67,19 @@ export default function UTMGenerator() {
     setIsCopied(true)
     toast({
       title: "Copied to clipboard",
-      description: "The UTM URL has been copied to your clipboard.",
+      description: "The full UTM URL has been copied to your clipboard.",
     })
     setTimeout(() => setIsCopied(false), 2000)
+  }
+
+  const handleQueryCopy = () => {
+    navigator.clipboard.writeText(queryString)
+    setIsQueryCopied(true)
+    toast({
+      title: "Copied to clipboard",
+      description: "The query string has been copied to your clipboard.",
+    })
+    setTimeout(() => setIsQueryCopied(false), 2000)
   }
 
   const handleGroupingSelect = (medium: string, source: string) => {
@@ -75,12 +90,12 @@ export default function UTMGenerator() {
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-bold mb-4">UTM Generator</h1>
-      
+
       <div className="space-y-4">
         <div>
           <Label htmlFor="baseUrl">Base URL</Label>
           <div className="flex">
-            <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+            <span className="inline-flex items-center px-3 text-sm bg-muted border border-r-0 border-input rounded-l-md">
               https://
             </span>
             <Input
@@ -102,7 +117,7 @@ export default function UTMGenerator() {
                 variant="outline"
                 className={`text-sm ${
                   utmMedium === group.medium && utmSource === group.source
-                    ? 'border-blue-500'
+                    ? 'border-primary ring-2 ring-ring'
                     : ''
                 }`}
                 onClick={() => handleGroupingSelect(group.medium, group.source)}
@@ -151,24 +166,47 @@ export default function UTMGenerator() {
           />
         </div>
 
-        <Button onClick={generateUrl} className="w-full bg-blue-500 hover:bg-blue-800 text-white">
+        <Button onClick={generateUrl} className="w-full bg-blue-600 hover:bg-blue-700 text-white">
           Generate UTM URL
         </Button>
 
         {generatedUrl && (
-          <div className="mt-4 p-4 bg-green-500 rounded flex items-center justify-between">
-            <div>
-              <Label className="text-white">Generated UTM URL:</Label>
-              <p className="text-sm font-mono break-all text-white">{generatedUrl}</p>
+          <div className="space-y-3">
+            {/* Full URL */}
+            <div className="p-4 bg-card border border-border rounded-lg">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <Label className="text-xs font-semibold text-muted-foreground mb-2 block">Full UTM URL</Label>
+                  <p className="text-sm font-mono break-all">{generatedUrl}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleCopy}
+                  className="shrink-0"
+                >
+                  {isCopied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
             </div>
-            <Button
-              variant="secondary"
-              size="icon"
-              onClick={handleCopy}
-              className={`transition-all duration-300 ${isCopied ? 'bg-green-700' : 'bg-green-800'}`}
-            >
-              {isCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-            </Button>
+
+            {/* Query String Only */}
+            <div className="p-4 bg-card border border-border rounded-lg">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <Label className="text-xs font-semibold text-muted-foreground mb-2 block">Query String Only</Label>
+                  <p className="text-sm font-mono break-all">{queryString}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleQueryCopy}
+                  className="shrink-0"
+                >
+                  {isQueryCopied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </div>
           </div>
         )}
       </div>

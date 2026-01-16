@@ -52,26 +52,26 @@ export default function DataToolsPage() {
   }
 
   return (
-    <div className="bg-black text-white p-4 sm:p-8 flex justify-center pt-16">
-      <Card className="w-full max-w-3xl bg-black border-gray-800">
-        <CardHeader className="p-6 border-b border-gray-800">
-          <CardTitle className="text-white text-2xl font-semibold">Data Tools</CardTitle>
-          <CardDescription className="text-gray-400">
+    <div className="bg-background text-foreground p-4 sm:p-8 flex justify-center pt-16">
+      <Card className="w-full max-w-3xl bg-background border-border">
+        <CardHeader className="p-6 border-b border-border">
+          <CardTitle className="text-foreground text-2xl font-semibold">Data Tools</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Format data for SOQL queries or convert spreadsheet data to comma-separated values.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-2 bg-gray-900">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger 
                 value="soql"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-white"
+                
               >
                 SOQL Query Helper
               </TabsTrigger>
               <TabsTrigger
                 value="separator"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-white"
+                
               >
                 Comma Separator
               </TabsTrigger>
@@ -80,7 +80,7 @@ export default function DataToolsPage() {
             {/* SOQL Query Helper Tab */}
             <TabsContent value="soql" className="mt-6 space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="soql-input" className="text-gray-300 text-sm font-medium">
+                <Label htmlFor="soql-input" className="text-muted-foreground text-sm font-medium">
                   Input (one value per line)
                 </Label>
                 <Textarea
@@ -89,7 +89,7 @@ export default function DataToolsPage() {
                   value={soqlInput}
                   onChange={(e) => setSoqlInput(e.target.value)}
                   rows={10}
-                  className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 font-mono"
+                  className="bg-card border-input text-foreground placeholder:text-muted-foreground font-mono"
                 />
               </div>
 
@@ -102,7 +102,7 @@ export default function DataToolsPage() {
 
               {soqlOutput && (
                 <div className="space-y-2">
-                  <Label htmlFor="soql-output" className="text-gray-300 text-sm font-medium">
+                  <Label htmlFor="soql-output" className="text-muted-foreground text-sm font-medium">
                     SOQL Formatted Output
                   </Label>
                   <Textarea
@@ -110,12 +110,12 @@ export default function DataToolsPage() {
                     value={soqlOutput}
                     readOnly
                     rows={5}
-                    className="bg-gray-900 border-gray-700 text-white font-mono"
+                    className="bg-card border-input text-foreground font-mono"
                   />
                   <Button
                     onClick={copySoqlToClipboard}
                     variant="outline"
-                    className="w-full border-gray-700 hover:bg-gray-800 text-white"
+                    className="w-full border-input hover:bg-accent text-foreground"
                   >
                     {soqlCopied ? (
                       <>
@@ -134,7 +134,7 @@ export default function DataToolsPage() {
             {/* Comma Separator Tab */}
             <TabsContent value="separator" className="mt-6 space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="separator-input" className="text-gray-300 text-sm font-medium">
+                <Label htmlFor="separator-input" className="text-muted-foreground text-sm font-medium">
                   Input (paste from spreadsheet)
                 </Label>
                 <Textarea
@@ -143,7 +143,7 @@ export default function DataToolsPage() {
                   value={separatorInput}
                   onChange={(e) => setSeparatorInput(e.target.value)}
                   rows={10}
-                  className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 font-mono"
+                  className="bg-card border-input text-foreground placeholder:text-muted-foreground font-mono"
                 />
               </div>
 
@@ -156,7 +156,7 @@ export default function DataToolsPage() {
 
               {separatorOutput && (
                 <div className="space-y-2">
-                  <Label htmlFor="separator-output" className="text-gray-300 text-sm font-medium">
+                  <Label htmlFor="separator-output" className="text-muted-foreground text-sm font-medium">
                     Comma-Separated Output
                   </Label>
                   <Textarea
@@ -164,12 +164,12 @@ export default function DataToolsPage() {
                     value={separatorOutput}
                     readOnly
                     rows={5}
-                    className="bg-gray-900 border-gray-700 text-white font-mono"
+                    className="bg-card border-input text-foreground font-mono"
                   />
                   <Button
                     onClick={copySeparatorToClipboard}
                     variant="outline"
-                    className="w-full border-gray-700 hover:bg-gray-800 text-white"
+                    className="w-full border-input hover:bg-accent text-foreground"
                   >
                     {separatorCopied ? (
                       <>

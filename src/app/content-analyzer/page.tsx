@@ -154,14 +154,14 @@ export default function ContentAnalyzerPage() {
   }
 
   return (
-    <div className="bg-black text-white p-4 sm:p-8 flex justify-center pt-16">
-      <Card className="w-full max-w-5xl bg-black border-gray-800">
-        <CardHeader className="p-6 border-b border-gray-800">
-          <CardTitle className="text-white text-2xl font-semibold flex items-center gap-2">
+    <div className="bg-background text-foreground p-4 sm:p-8 flex justify-center pt-16">
+      <Card className="w-full max-w-5xl bg-background border-border">
+        <CardHeader className="p-6 border-b border-border">
+          <CardTitle className="text-foreground text-2xl font-semibold flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-[#0070f3]" />
             Content Analyzer & Rewriter
           </CardTitle>
-          <CardDescription className="text-gray-400">
+          <CardDescription className="text-muted-foreground">
             Rewrite your content following Vercel&apos;s style guide using AI.
           </CardDescription>
         </CardHeader>
@@ -170,17 +170,17 @@ export default function ContentAnalyzerPage() {
             {/* Input Section */}
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="content-type" className="text-gray-300 text-sm font-medium">
+                <Label htmlFor="content-type" className="text-muted-foreground text-sm font-medium">
                   Content Type
                 </Label>
                 <Select value={contentType} onValueChange={setContentType}>
                   <SelectTrigger
                     id="content-type"
-                    className="bg-gray-900 border-gray-700 text-white"
+                    className="bg-card border-input text-foreground"
                   >
                     <SelectValue placeholder="Select content type" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900 border-gray-700 text-white">
+                  <SelectContent className="bg-card border-input text-foreground">
                     {contentTypes.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
                         {type.label}
@@ -193,7 +193,7 @@ export default function ContentAnalyzerPage() {
               {contentType === "email" ? (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="email-subject" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="email-subject" className="text-muted-foreground text-sm font-medium">
                       Subject Line
                     </Label>
                     <input
@@ -202,15 +202,15 @@ export default function ContentAnalyzerPage() {
                       value={emailSubject}
                       onChange={(e) => setEmailSubject(e.target.value)}
                       placeholder="Enter email subject line..."
-                      className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                      className="flex h-10 w-full rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                     />
-                    <p className="text-gray-500 text-xs h-4">
+                    <p className="text-muted-foreground text-xs h-4">
                       {emailSubject.length} characters {emailSubject.length > 0 && `• Optimal: 40-50 chars`}
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email-preheader" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="email-preheader" className="text-muted-foreground text-sm font-medium">
                       Preheader Text
                     </Label>
                     <input
@@ -219,15 +219,15 @@ export default function ContentAnalyzerPage() {
                       value={emailPreheader}
                       onChange={(e) => setEmailPreheader(e.target.value)}
                       placeholder="Enter preheader text..."
-                      className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                      className="flex h-10 w-full rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                     />
-                    <p className="text-gray-500 text-xs h-4">
+                    <p className="text-muted-foreground text-xs h-4">
                       {emailPreheader.length} characters {emailPreheader.length > 0 && `• Optimal: 40-130 chars`}
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email-body" className="text-gray-300 text-sm font-medium">
+                    <Label htmlFor="email-body" className="text-muted-foreground text-sm font-medium">
                       Email Body
                     </Label>
                     <Textarea
@@ -236,16 +236,16 @@ export default function ContentAnalyzerPage() {
                       onChange={(e) => setEmailBody(e.target.value)}
                       placeholder="Paste your email body content here..."
                       rows={10}
-                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 resize-none"
+                      className="bg-card border-input text-foreground placeholder:text-muted-foreground resize-none"
                     />
-                    <p className="text-gray-500 text-xs h-4">
+                    <p className="text-muted-foreground text-xs h-4">
                       {emailBody.length} characters
                     </p>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <Label htmlFor="input-content" className="text-gray-300 text-sm font-medium">
+                  <Label htmlFor="input-content" className="text-muted-foreground text-sm font-medium">
                     Original Content
                   </Label>
                   <Textarea
@@ -254,9 +254,9 @@ export default function ContentAnalyzerPage() {
                     onChange={(e) => setInputContent(e.target.value)}
                     placeholder="Paste your content here..."
                     rows={16}
-                    className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 resize-none"
+                    className="bg-card border-input text-foreground placeholder:text-muted-foreground resize-none"
                   />
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-muted-foreground text-xs">
                     {inputContent.length} characters
                   </p>
                 </div>
@@ -297,37 +297,37 @@ export default function ContentAnalyzerPage() {
                     <div className="h-[72px]"></div>
                     
                     <div className="space-y-2">
-                      <Label className="text-gray-300 text-sm font-medium">
+                      <Label className="text-muted-foreground text-sm font-medium">
                         Rewritten Subject Line
                       </Label>
-                      <div className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900/50 px-3 py-2">
+                      <div className="flex h-10 w-full rounded-md border border-input bg-card/50 px-3 py-2">
                         <div className="h-4 bg-gray-700 rounded animate-pulse w-3/4"></div>
                       </div>
-                      <p className="text-gray-500 text-xs h-4">\u00A0</p>
+                      <p className="text-muted-foreground text-xs h-4">\u00A0</p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-gray-300 text-sm font-medium">
+                      <Label className="text-muted-foreground text-sm font-medium">
                         Rewritten Preheader
                       </Label>
-                      <div className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900/50 px-3 py-2">
+                      <div className="flex h-10 w-full rounded-md border border-input bg-card/50 px-3 py-2">
                         <div className="h-4 bg-gray-700 rounded animate-pulse w-2/3"></div>
                       </div>
-                      <p className="text-gray-500 text-xs h-4">\u00A0</p>
+                      <p className="text-muted-foreground text-xs h-4">\u00A0</p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-gray-300 text-sm font-medium">
+                      <Label className="text-muted-foreground text-sm font-medium">
                         Rewritten Email Body
                       </Label>
-                      <div className="w-full rounded-md border border-gray-700 bg-gray-900/50 px-3 py-2 space-y-2" style={{ height: '250px' }}>
+                      <div className="w-full rounded-md border border-input bg-card/50 px-3 py-2 space-y-2" style={{ height: '250px' }}>
                         <div className="h-3 bg-gray-700 rounded animate-pulse w-full"></div>
                         <div className="h-3 bg-gray-700 rounded animate-pulse w-5/6"></div>
                         <div className="h-3 bg-gray-700 rounded animate-pulse w-4/5"></div>
                         <div className="h-3 bg-gray-700 rounded animate-pulse w-full"></div>
                         <div className="h-3 bg-gray-700 rounded animate-pulse w-3/4"></div>
                       </div>
-                      <p className="text-gray-500 text-xs h-4">\u00A0</p>
+                      <p className="text-muted-foreground text-xs h-4">\u00A0</p>
                     </div>
                   </div>
                 ) : (
@@ -335,10 +335,10 @@ export default function ContentAnalyzerPage() {
                     {/* Spacer to align with Original Content on left (accounting for Content Type dropdown) */}
                     <div className="h-[72px]"></div>
                     
-                    <Label className="text-gray-300 text-sm font-medium">
+                    <Label className="text-muted-foreground text-sm font-medium">
                       Rewritten Content
                     </Label>
-                    <div className="w-full rounded-md border border-gray-700 bg-gray-900/50 px-3 py-2 space-y-2" style={{ height: '400px' }}>
+                    <div className="w-full rounded-md border border-input bg-card/50 px-3 py-2 space-y-2" style={{ height: '400px' }}>
                       <div className="h-3 bg-gray-700 rounded animate-pulse w-full"></div>
                       <div className="h-3 bg-gray-700 rounded animate-pulse w-5/6"></div>
                       <div className="h-3 bg-gray-700 rounded animate-pulse w-4/5"></div>
@@ -348,7 +348,7 @@ export default function ContentAnalyzerPage() {
                       <div className="h-3 bg-gray-700 rounded animate-pulse w-full"></div>
                       <div className="h-3 bg-gray-700 rounded animate-pulse w-2/3"></div>
                     </div>
-                    <p className="text-gray-500 text-xs">\u00A0</p>
+                    <p className="text-muted-foreground text-xs">\u00A0</p>
                   </div>
                 )
               ) : contentType === "email" ? (
@@ -357,7 +357,7 @@ export default function ContentAnalyzerPage() {
                   <div className="h-[72px]"></div>
                   
                   <div className="space-y-2">
-                    <Label className="text-gray-300 text-sm font-medium">
+                    <Label className="text-muted-foreground text-sm font-medium">
                       Rewritten Subject Line
                     </Label>
                     <input
@@ -365,15 +365,15 @@ export default function ContentAnalyzerPage() {
                       value={emailOutputSubject}
                       readOnly
                       placeholder="Rewritten subject will appear here..."
-                      className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-white placeholder:text-gray-500"
+                      className="flex h-10 w-full rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
                     />
-                    <p className="text-gray-500 text-xs h-4">
+                    <p className="text-muted-foreground text-xs h-4">
                       {emailOutputSubject ? `${emailOutputSubject.length} characters` : '\u00A0'}
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-gray-300 text-sm font-medium">
+                    <Label className="text-muted-foreground text-sm font-medium">
                       Rewritten Preheader
                     </Label>
                     <input
@@ -381,15 +381,15 @@ export default function ContentAnalyzerPage() {
                       value={emailOutputPreheader}
                       readOnly
                       placeholder="Rewritten preheader will appear here..."
-                      className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-white placeholder:text-gray-500"
+                      className="flex h-10 w-full rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
                     />
-                    <p className="text-gray-500 text-xs h-4">
+                    <p className="text-muted-foreground text-xs h-4">
                       {emailOutputPreheader ? `${emailOutputPreheader.length} characters` : '\u00A0'}
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-gray-300 text-sm font-medium">
+                    <Label className="text-muted-foreground text-sm font-medium">
                       Rewritten Email Body
                     </Label>
                     <Textarea
@@ -397,9 +397,9 @@ export default function ContentAnalyzerPage() {
                       readOnly
                       placeholder="Rewritten email body will appear here..."
                       rows={10}
-                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 resize-none"
+                      className="bg-card border-input text-foreground placeholder:text-muted-foreground resize-none"
                     />
-                    <p className="text-gray-500 text-xs h-4">
+                    <p className="text-muted-foreground text-xs h-4">
                       {emailOutputBody ? `${emailOutputBody.length} characters` : '\u00A0'}
                     </p>
                   </div>
@@ -409,7 +409,7 @@ export default function ContentAnalyzerPage() {
                   {/* Spacer to align with Original Content on left (accounting for Content Type dropdown) */}
                   <div className="h-[72px]"></div>
                   
-                  <Label className="text-gray-300 text-sm font-medium">
+                  <Label className="text-muted-foreground text-sm font-medium">
                     Rewritten Content
                   </Label>
                   <Textarea
@@ -417,10 +417,10 @@ export default function ContentAnalyzerPage() {
                     readOnly
                     placeholder="Rewritten content will appear here..."
                     rows={16}
-                    className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 resize-none"
+                    className="bg-card border-input text-foreground placeholder:text-muted-foreground resize-none"
                   />
                   {outputContent && (
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-muted-foreground text-xs">
                       {outputContent.length} characters
                     </p>
                   )}
@@ -432,7 +432,7 @@ export default function ContentAnalyzerPage() {
                   <Button
                     onClick={handleCopy}
                     variant="outline"
-                    className="w-full border-gray-700 hover:bg-gray-800 text-white"
+                    className="w-full border-input hover:bg-accent text-foreground"
                   >
                     {copied ? (
                       <>
@@ -447,7 +447,7 @@ export default function ContentAnalyzerPage() {
                   <Button
                     onClick={handleOpenEditModal}
                     variant="outline"
-                    className="w-full border-gray-700 hover:bg-gray-800 text-white"
+                    className="w-full border-input hover:bg-accent text-foreground"
                   >
                     <Maximize2 className="mr-2 h-4 w-4" /> Edit Full Screen
                   </Button>
@@ -456,10 +456,10 @@ export default function ContentAnalyzerPage() {
 
               {isLoading && (
                 <div className="space-y-2">
-                  <Label className="text-gray-300 text-sm font-medium">
+                  <Label className="text-muted-foreground text-sm font-medium">
                     Key Improvements
                   </Label>
-                  <div className="bg-gray-900/50 border border-gray-800 rounded-md p-4 space-y-3">
+                  <div className="bg-card/50 border border-border rounded-md p-4 space-y-3">
                     <div className="flex items-center gap-2">
                       <span className="text-[#0070f3] flex-shrink-0">•</span>
                       <div className="h-3 bg-gray-700 rounded animate-pulse w-full"></div>
@@ -478,14 +478,14 @@ export default function ContentAnalyzerPage() {
 
               {!isLoading && improvements.length > 0 && (
                 <div className="space-y-2">
-                  <Label className="text-gray-300 text-sm font-medium">
+                  <Label className="text-muted-foreground text-sm font-medium">
                     Key Improvements
                   </Label>
-                  <div className="bg-gray-900/50 border border-gray-800 rounded-md p-4 space-y-2">
+                  <div className="bg-card/50 border border-border rounded-md p-4 space-y-2">
                     {improvements.map((improvement, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <span className="text-[#0070f3] flex-shrink-0">•</span>
-                        <p className="text-gray-300 text-sm">{improvement}</p>
+                        <p className="text-muted-foreground text-sm">{improvement}</p>
                       </div>
                     ))}
                   </div>
@@ -495,54 +495,54 @@ export default function ContentAnalyzerPage() {
           </div>
 
           {/* Style Guide Summary */}
-          <div className="mt-8 pt-6 border-t border-gray-800">
-            <h3 className="text-white font-semibold mb-3">Vercel Style Guide Highlights</h3>
+          <div className="mt-8 pt-6 border-t border-border">
+            <h3 className="text-foreground font-semibold mb-3">Vercel Style Guide Highlights</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">✂️ Keep it Short</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">✂️ Keep it Short</h4>
+                <p className="text-muted-foreground text-xs">
                   Short sentences. Fewer commas. More periods.
                 </p>
               </div>
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">🎯 Benefit-Driven</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">🎯 Benefit-Driven</h4>
+                <p className="text-muted-foreground text-xs">
                   Lead with benefits. Use metrics when possible.
                 </p>
               </div>
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">⚡ Action-Oriented</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">⚡ Action-Oriented</h4>
+                <p className="text-muted-foreground text-xs">
                   Start with verbs. Make the reader the hero.
                 </p>
               </div>
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">🚫 No Exclamation Points</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">🚫 No Exclamation Points</h4>
+                <p className="text-muted-foreground text-xs">
                   Never. Keep tone calm and factual.
                 </p>
               </div>
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">📋 Make it Scannable</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">📋 Make it Scannable</h4>
+                <p className="text-muted-foreground text-xs">
                   Use bullets. Clear hierarchies. One idea per paragraph.
                 </p>
               </div>
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">🔧 Technical Precision</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">🔧 Technical Precision</h4>
+                <p className="text-muted-foreground text-xs">
                   Use technical terms clearly. Avoid buzzwords.
                 </p>
               </div>
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">✨ Active Voice</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">✨ Active Voice</h4>
+                <p className="text-muted-foreground text-xs">
                   Say &quot;you&quot; more than &quot;we&quot;. Stay positive.
                 </p>
               </div>
-              <div className="bg-gray-900/50 border border-gray-800 rounded-md p-3">
-                <h4 className="text-white text-sm font-medium mb-1.5">❌ Strip Qualifiers</h4>
-                <p className="text-gray-400 text-xs">
+              <div className="bg-card/50 border border-border rounded-md p-3">
+                <h4 className="text-foreground text-sm font-medium mb-1.5">❌ Strip Qualifiers</h4>
+                <p className="text-muted-foreground text-xs">
                   Remove &quot;basically&quot;, &quot;probably&quot;, &quot;might&quot;.
                 </p>
               </div>
@@ -553,10 +553,10 @@ export default function ContentAnalyzerPage() {
 
       {/* Full-Screen Edit Modal */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="max-w-5xl h-[90vh] bg-black border-gray-800 text-white overflow-hidden flex flex-col">
+        <DialogContent className="max-w-5xl h-[90vh] bg-background border-border text-foreground overflow-hidden flex flex-col">
           <DialogHeader>
-            <DialogTitle className="text-white text-xl font-semibold">Edit Content</DialogTitle>
-            <DialogDescription className="text-gray-400">
+            <DialogTitle className="text-foreground text-xl font-semibold">Edit Content</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Make any edits to your content before copying.
             </DialogDescription>
           </DialogHeader>
@@ -565,7 +565,7 @@ export default function ContentAnalyzerPage() {
             {contentType === "email" ? (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="edit-subject" className="text-gray-300 text-sm font-medium">
+                  <Label htmlFor="edit-subject" className="text-muted-foreground text-sm font-medium">
                     Subject Line
                   </Label>
                   <input
@@ -573,15 +573,15 @@ export default function ContentAnalyzerPage() {
                     type="text"
                     value={editedSubject}
                     onChange={(e) => setEditedSubject(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    className="flex h-10 w-full rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                   />
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-muted-foreground text-xs">
                     {editedSubject.length} characters
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="edit-preheader" className="text-gray-300 text-sm font-medium">
+                  <Label htmlFor="edit-preheader" className="text-muted-foreground text-sm font-medium">
                     Preheader Text
                   </Label>
                   <input
@@ -589,15 +589,15 @@ export default function ContentAnalyzerPage() {
                     type="text"
                     value={editedPreheader}
                     onChange={(e) => setEditedPreheader(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    className="flex h-10 w-full rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070f3] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                   />
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-muted-foreground text-xs">
                     {editedPreheader.length} characters
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="edit-body" className="text-gray-300 text-sm font-medium">
+                  <Label htmlFor="edit-body" className="text-muted-foreground text-sm font-medium">
                     Email Body
                   </Label>
                   <Textarea
@@ -605,16 +605,16 @@ export default function ContentAnalyzerPage() {
                     value={editedBody}
                     onChange={(e) => setEditedBody(e.target.value)}
                     rows={20}
-                    className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 resize-y min-h-[200px]"
+                    className="bg-card border-input text-foreground placeholder:text-muted-foreground resize-y min-h-[200px]"
                   />
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-muted-foreground text-xs">
                     {editedBody.length} characters
                   </p>
                 </div>
               </>
             ) : (
               <div className="space-y-2">
-                <Label htmlFor="edit-content" className="text-gray-300 text-sm font-medium">
+                <Label htmlFor="edit-content" className="text-muted-foreground text-sm font-medium">
                   Content
                 </Label>
                 <Textarea
@@ -622,16 +622,16 @@ export default function ContentAnalyzerPage() {
                   value={editedContent}
                   onChange={(e) => setEditedContent(e.target.value)}
                   rows={25}
-                  className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 resize-y min-h-[400px]"
+                  className="bg-card border-input text-foreground placeholder:text-muted-foreground resize-y min-h-[400px]"
                 />
-                <p className="text-gray-500 text-xs">
+                <p className="text-muted-foreground text-xs">
                   {editedContent.length} characters
                 </p>
               </div>
             )}
           </div>
 
-          <div className="pt-4 border-t border-gray-800 flex gap-2">
+          <div className="pt-4 border-t border-border flex gap-2">
             <Button
               onClick={handleCopyEdited}
               className="flex-1 bg-[#0070f3] hover:bg-[#0060df] text-white"
@@ -649,7 +649,7 @@ export default function ContentAnalyzerPage() {
             <Button
               onClick={() => setIsEditModalOpen(false)}
               variant="outline"
-              className="border-gray-700 hover:bg-gray-800 text-white"
+              className="border-input hover:bg-accent text-foreground"
             >
               Close
             </Button>
