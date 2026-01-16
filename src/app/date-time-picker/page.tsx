@@ -75,7 +75,7 @@ export default function EventCreatorPage() {
   const [sfdcMinute, setSfdcMinute] = useState("00")
   const [sfdcAmPm, setSfdcAmPm] = useState("AM")
   const [sfdcOutput, setSfdcOutput] = useState("")
-  const [activeTab, setActiveTab] = useState("sfdc")
+  const [activeTab, setActiveTab] = useState("calendar")
 
   const [errors, setErrors] = useState<ErrorState>({})
   const [generatedOutput, setGeneratedOutput] = useState<{
