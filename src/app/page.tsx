@@ -16,56 +16,64 @@ const tools = [
     icon: MessageSquare,
     title: 'Naming Generators',
     description: 'Generate compelling names for your campaigns and projects',
-    color: 'from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 dark:from-blue-300/20 dark:to-blue-300/20 dark:hover:from-blue-300/30 dark:hover:to-blue-300/30'
+    color: 'from-blue-500/40 to-blue-500/40 hover:from-blue-500/50 hover:to-blue-500/50 dark:from-blue-300/20 dark:to-blue-300/20 dark:hover:from-blue-300/30 dark:hover:to-blue-300/30',
+    lightText: false
   },
   {
     href: '/date-time-picker',
     icon: CalendarDays,
     title: 'Date & Time Picker',
     description: 'Convert and manage timezones for global campaigns',
-    color: 'from-purple-600 to-purple-600 hover:from-purple-700 hover:to-purple-700 dark:from-purple-300/20 dark:to-purple-300/20 dark:hover:from-purple-300/30 dark:hover:to-purple-300/30'
+    color: 'from-purple-500/40 to-purple-500/40 hover:from-purple-500/50 hover:to-purple-500/50 dark:from-purple-300/20 dark:to-purple-300/20 dark:hover:from-purple-300/30 dark:hover:to-purple-300/30',
+    lightText: false
   },
   {
     href: '/utm-generator',
     icon: LinkIcon,
     title: 'UTM Generator',
     description: 'Create trackable campaign URLs with UTM parameters',
-    color: 'from-green-600 to-green-600 hover:from-green-700 hover:to-green-700 dark:from-green-300/20 dark:to-green-300/20 dark:hover:from-green-300/30 dark:hover:to-green-300/30'
+    color: 'from-green-500/40 to-green-500/40 hover:from-green-500/50 hover:to-green-500/50 dark:from-green-300/20 dark:to-green-300/20 dark:hover:from-green-300/30 dark:hover:to-green-300/30',
+    lightText: false
   },
   {
     href: '/image-generator',
     icon: Image,
     title: 'Image Generator',
     description: 'Generate marketing images for your campaigns',
-    color: 'from-red-600 to-red-600 hover:from-red-700 hover:to-red-700 dark:from-red-300/20 dark:to-red-300/20 dark:hover:from-red-300/30 dark:hover:to-red-300/30'
+    color: 'from-red-500/40 to-red-500/40 hover:from-red-500/50 hover:to-red-500/50 dark:from-red-300/20 dark:to-red-300/20 dark:hover:from-red-300/30 dark:hover:to-red-300/30',
+    lightText: false
   },
   {
     href: '/qr-code-generator',
     icon: QrCode,
     title: 'QR Code Generator',
     description: 'Create QR codes for events and campaigns',
-    color: 'from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 dark:from-blue-300/20 dark:to-blue-300/20 dark:hover:from-blue-300/30 dark:hover:to-blue-300/30'
+    color: 'from-blue-500/40 to-blue-500/40 hover:from-blue-500/50 hover:to-blue-500/50 dark:from-blue-300/20 dark:to-blue-300/20 dark:hover:from-blue-300/30 dark:hover:to-blue-300/30',
+    lightText: false
   },
   {
     href: '/content-analyzer',
     icon: Sparkles,
     title: 'Content Analyzer',
     description: 'AI-powered content analysis and optimization',
-    color: 'from-amber-600 to-amber-600 hover:from-amber-700 hover:to-amber-700 dark:from-amber-300/20 dark:to-amber-300/20 dark:hover:from-amber-300/30 dark:hover:to-amber-300/30'
+    color: 'from-amber-500/40 to-amber-500/40 hover:from-amber-500/50 hover:to-amber-500/50 dark:from-amber-300/20 dark:to-amber-300/20 dark:hover:from-amber-300/30 dark:hover:to-amber-300/30',
+    lightText: false
   },
   {
     href: '/email-review',
     icon: Mail,
     title: 'Email Review Agent',
     description: 'AI-powered email quality assurance and optimization',
-    color: 'from-teal-600 to-teal-600 hover:from-teal-700 hover:to-teal-700 dark:from-teal-300/20 dark:to-teal-300/20 dark:hover:from-teal-300/30 dark:hover:to-teal-300/30'
+    color: 'from-teal-500/40 to-teal-500/40 hover:from-teal-500/50 hover:to-teal-500/50 dark:from-teal-300/20 dark:to-teal-300/20 dark:hover:from-teal-300/30 dark:hover:to-teal-300/30',
+    lightText: false
   },
   {
     href: '/soql-query-helper',
     icon: ScanSearch,
     title: 'SOQL Query Helper',
     description: 'Generate and test Salesforce SOQL queries',
-    color: 'from-pink-600 to-pink-600 hover:from-pink-700 hover:to-pink-700 dark:from-pink-300/20 dark:to-pink-300/20 dark:hover:from-pink-300/30 dark:hover:to-pink-300/30'
+    color: 'from-pink-500/40 to-pink-500/40 hover:from-pink-500/50 hover:to-pink-500/50 dark:from-pink-300/20 dark:to-pink-300/20 dark:hover:from-pink-300/30 dark:hover:to-pink-300/30',
+    lightText: false
   },
 ]
 
