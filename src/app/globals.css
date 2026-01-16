@@ -1,36 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 13%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 13%;
-    --muted-foreground: 0 0% 63%;
-    --accent: 0 0% 13%;
-    --accent-foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 13%;
-    --input: 0 0% 13%;
-    --ring: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 0%;
     --radius: 0.5rem;
+    --success: 167 61% 55%;
+    --warning: 33 100% 57%;
+    --error: 0 100% 63%;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 53%;
+    --accent: 0 0% 10%;
+    --accent-foreground: 0 0% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 25%;
+    --success: 167 61% 55%;
+    --warning: 33 100% 57%;
+    --error: 0 100% 63%;
   }
 }
- 
+
 @layer base {
+  * {
+    @apply border-border;
+  }
+
   body {
-    @apply bg-black text-white;
-     background: linear-gradient(to bottom right, #000000, #111111); 
+    @apply bg-background text-foreground antialiased;
   }
 
   /* Force dark mode for input autofill */
@@ -43,15 +74,19 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    -webkit-text-fill-color: white;
-    -webkit-box-shadow: 0 0 0px 1000px #111827 inset;
-    box-shadow: 0 0 0px 1000px #111827 inset;
+    -webkit-text-fill-color: hsl(var(--foreground));
+    -webkit-box-shadow: 0 0 0px 1000px hsl(var(--input)) inset;
+    box-shadow: 0 0 0px 1000px hsl(var(--input)) inset;
     transition: background-color 5000s ease-in-out 0s;
   }
 
-  /* Ensure date inputs respect dark mode */
+  /* Ensure date inputs respect theme */
   input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+    filter: invert(var(--tw-invert, 0));
+  }
+
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    --tw-invert: 1;
   }
 }
 
@@ -78,4 +113,76 @@
 .react-select-container .react-select__input-container,
 .react-select-container .react-select__single-value {
   @apply text-foreground;
+}
+
+/* Email Review Agent Animations */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@layer utilities {
+  .bg-gradient-vercel {
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.15), transparent);
+  }
+
+  .text-success {
+    color: hsl(var(--success));
+  }
+
+  .text-warning {
+    color: hsl(var(--warning));
+  }
+
+  .text-error {
+    color: hsl(var(--error));
+  }
+
+  .bg-success\/5 {
+    background-color: hsl(var(--success) / 0.05);
+  }
+
+  .bg-success\/10 {
+    background-color: hsl(var(--success) / 0.1);
+  }
+
+  .bg-warning\/5 {
+    background-color: hsl(var(--warning) / 0.05);
+  }
+
+  .bg-error\/5 {
+    background-color: hsl(var(--error) / 0.05);
+  }
+
+  .bg-error\/10 {
+    background-color: hsl(var(--error) / 0.1);
+  }
+
+  .border-success\/20 {
+    border-color: hsl(var(--success) / 0.2);
+  }
+
+  .border-success\/50 {
+    border-color: hsl(var(--success) / 0.5);
+  }
+
+  .border-warning\/20 {
+    border-color: hsl(var(--warning) / 0.2);
+  }
+
+  .border-warning\/50 {
+    border-color: hsl(var(--warning) / 0.5);
+  }
+
+  .border-error\/20 {
+    border-color: hsl(var(--error) / 0.2);
+  }
+
+  .border-error\/50 {
+    border-color: hsl(var(--error) / 0.5);
+  }
 }
