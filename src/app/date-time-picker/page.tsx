@@ -255,16 +255,16 @@ export default function EventCreatorPage() {
         </CardHeader>
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-2 bg-card">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger 
                 value="sfdc"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
+                
               >
                 SFDC Date/Time
               </TabsTrigger>
               <TabsTrigger
                 value="calendar"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
+                
               >
                 Calendar Event
               </TabsTrigger>
@@ -577,20 +577,20 @@ export default function EventCreatorPage() {
               {generatedOutput && (
                 <div className="mt-8">
                   <Tabs defaultValue="links" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3 bg-card">
+                    <TabsList className="grid w-full grid-cols-3">
                       <TabsTrigger
                         value="links"
-                        className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
+                        
                       >
                         Calendar Links
                       </TabsTrigger>
                       <TabsTrigger
                         value="datetime"
-                        className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
+                        
                       >
                         Date & Time
                       </TabsTrigger>
-                      <TabsTrigger value="iso" className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground">
+                      <TabsTrigger value="iso" >
                         ISO Datetime
                       </TabsTrigger>
                     </TabsList>

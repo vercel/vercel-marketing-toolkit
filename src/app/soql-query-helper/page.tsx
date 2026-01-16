@@ -62,16 +62,16 @@ export default function DataToolsPage() {
         </CardHeader>
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-2 bg-card">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger 
                 value="soql"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
+                
               >
                 SOQL Query Helper
               </TabsTrigger>
               <TabsTrigger
                 value="separator"
-                className="data-[state=active]:bg-gray-800 data-[state=active]:text-foreground"
+                
               >
                 Comma Separator
               </TabsTrigger>
