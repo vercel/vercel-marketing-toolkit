@@ -16,56 +16,56 @@ const tools = [
     icon: MessageSquare,
     title: 'Naming Generators',
     description: 'Generate compelling names for your campaigns and projects',
-    color: 'from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20'
+    color: 'from-blue-500/30 to-cyan-500/30 hover:from-blue-500/40 hover:to-cyan-500/40 dark:from-blue-500/20 dark:to-cyan-500/20 dark:hover:from-blue-500/30 dark:hover:to-cyan-500/30'
   },
   {
     href: '/date-time-picker',
     icon: CalendarDays,
     title: 'Date & Time Picker',
     description: 'Convert and manage timezones for global campaigns',
-    color: 'from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20'
+    color: 'from-purple-500/30 to-fuchsia-500/30 hover:from-purple-500/40 hover:to-fuchsia-500/40 dark:from-purple-500/20 dark:to-fuchsia-500/20 dark:hover:from-purple-500/30 dark:hover:to-fuchsia-500/30'
   },
   {
     href: '/utm-generator',
     icon: LinkIcon,
     title: 'UTM Generator',
     description: 'Create trackable campaign URLs with UTM parameters',
-    color: 'from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20'
+    color: 'from-emerald-500/30 to-teal-500/30 hover:from-emerald-500/40 hover:to-teal-500/40 dark:from-emerald-500/20 dark:to-teal-500/20 dark:hover:from-emerald-500/30 dark:hover:to-teal-500/30'
   },
   {
     href: '/image-generator',
     icon: Image,
     title: 'Image Generator',
     description: 'Generate marketing images for your campaigns',
-    color: 'from-orange-500/10 to-red-500/10 hover:from-orange-500/20 hover:to-red-500/20'
+    color: 'from-orange-500/30 to-rose-500/30 hover:from-orange-500/40 hover:to-rose-500/40 dark:from-orange-500/20 dark:to-rose-500/20 dark:hover:from-orange-500/30 dark:hover:to-rose-500/30'
   },
   {
     href: '/qr-code-generator',
     icon: QrCode,
     title: 'QR Code Generator',
     description: 'Create QR codes for events and campaigns',
-    color: 'from-indigo-500/10 to-blue-500/10 hover:from-indigo-500/20 hover:to-blue-500/20'
+    color: 'from-indigo-500/30 to-blue-500/30 hover:from-indigo-500/40 hover:to-blue-500/40 dark:from-indigo-500/20 dark:to-blue-500/20 dark:hover:from-indigo-500/30 dark:hover:to-blue-500/30'
   },
   {
     href: '/content-analyzer',
     icon: Sparkles,
     title: 'Content Analyzer',
     description: 'AI-powered content analysis and optimization',
-    color: 'from-yellow-500/10 to-orange-500/10 hover:from-yellow-500/20 hover:to-orange-500/20'
+    color: 'from-amber-500/30 to-orange-500/30 hover:from-amber-500/40 hover:to-orange-500/40 dark:from-amber-500/20 dark:to-orange-500/20 dark:hover:from-amber-500/30 dark:hover:to-orange-500/30'
   },
   {
     href: '/email-review',
     icon: Mail,
     title: 'Email Review Agent',
     description: 'AI-powered email quality assurance and optimization',
-    color: 'from-teal-500/10 to-cyan-500/10 hover:from-teal-500/20 hover:to-cyan-500/20'
+    color: 'from-cyan-500/30 to-sky-500/30 hover:from-cyan-500/40 hover:to-sky-500/40 dark:from-cyan-500/20 dark:to-sky-500/20 dark:hover:from-cyan-500/30 dark:hover:to-sky-500/30'
   },
   {
     href: '/soql-query-helper',
     icon: ScanSearch,
     title: 'SOQL Query Helper',
     description: 'Generate and test Salesforce SOQL queries',
-    color: 'from-pink-500/10 to-rose-500/10 hover:from-pink-500/20 hover:to-rose-500/20'
+    color: 'from-pink-500/30 to-rose-500/30 hover:from-pink-500/40 hover:to-rose-500/40 dark:from-pink-500/20 dark:to-rose-500/20 dark:hover:from-pink-500/30 dark:hover:to-rose-500/30'
   },
 ]
 

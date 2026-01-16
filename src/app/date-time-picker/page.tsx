@@ -148,23 +148,17 @@ export default function EventCreatorPage() {
     }
 
     const dateString = date.toISOString().split("T")[0]
-    const timeString = `${String(hour24).padStart(2, "0")}:${minute}:00`
+    const [year, month, day] = dateString.split('-').map(Number)
 
-    // Create a date in the target timezone
-    // We'll use a reference date to get the timezone offset at the specific date/time
+    // Convert local time in selected timezone to UTC
+    // Strategy: Use Intl.DateTimeFormat to find what UTC time corresponds to the desired local time
     let startUtc: Date
     try {
-      // Parse the date components
-      const [year, month, day] = dateString.split('-').map(Number)
+      // Create a candidate UTC date (we'll iterate to find the correct one)
+      // Start with the assumption that the offset is 0
+      let candidateUTC = new Date(Date.UTC(year, month - 1, day, hour24, Number.parseInt(minute), 0))
 
-      // Create a date string that we'll interpret in the target timezone
-      const localDateTimeString = `${dateString}T${timeString}`
-
-      // Get the timezone offset for this specific date/time in the target timezone
-      // This accounts for DST changes
-      const testDate = new Date(`${localDateTimeString}Z`) // Start with UTC interpretation
-
-      // Format the date in the target timezone to see what local time it represents
+      // Format this UTC time in the target timezone to see what local time it shows
       const formatter = new Intl.DateTimeFormat("en-US", {
         timeZone: timezone,
         year: 'numeric',
@@ -176,45 +170,36 @@ export default function EventCreatorPage() {
         hour12: false
       })
 
-      // Now get the offset by comparing UTC to local representation
-      // Use a known UTC time and see how it appears in the target timezone
-      const utcDate = new Date(Date.UTC(year, month - 1, day, hour24, Number.parseInt(minute), 0))
+      // Get the local time representation of our candidate UTC time
+      const parts = formatter.formatToParts(candidateUTC)
+      const localYear = Number.parseInt(parts.find(p => p.type === 'year')!.value)
+      const localMonth = Number.parseInt(parts.find(p => p.type === 'month')!.value)
+      const localDay = Number.parseInt(parts.find(p => p.type === 'day')!.value)
+      const localHour = Number.parseInt(parts.find(p => p.type === 'hour')!.value)
+      const localMinute = Number.parseInt(parts.find(p => p.type === 'minute')!.value)
 
-      // Get offset in minutes by using getTimezoneOffset equivalent for target zone
-      const offsetFormatter = new Intl.DateTimeFormat("en-US", {
-        timeZone: timezone,
-        timeZoneName: "longOffset",
-      })
+      // Calculate the difference between what we want and what we got
+      const wantedTime = new Date(year, month - 1, day, hour24, Number.parseInt(minute), 0).getTime()
+      const gotTime = new Date(localYear, localMonth - 1, localDay, localHour, localMinute, 0).getTime()
+      const offsetMs = wantedTime - gotTime
 
-      const parts = offsetFormatter.formatToParts(utcDate)
-      const offsetPart = parts.find(p => p.type === 'timeZoneName')
+      // Adjust our candidate UTC time by this offset
+      startUtc = new Date(candidateUTC.getTime() + offsetMs)
 
-      if (offsetPart && offsetPart.value) {
-        const offsetMatch = offsetPart.value.match(/GMT([+-])(\d{1,2}):?(\d{2})?/)
-        if (offsetMatch) {
-          const sign = offsetMatch[1] === '+' ? 1 : -1
-          const hours = parseInt(offsetMatch[2])
-          const minutes = offsetMatch[3] ? parseInt(offsetMatch[3]) : 0
-          const offsetMinutes = sign * (hours * 60 + minutes)
+      // Verify the result is correct by formatting it back
+      const verifyParts = formatter.formatToParts(startUtc)
+      const verifyHour = Number.parseInt(verifyParts.find(p => p.type === 'hour')!.value)
+      const verifyMinute = Number.parseInt(verifyParts.find(p => p.type === 'minute')!.value)
 
-          // Now create the correct UTC date by subtracting the offset
-          startUtc = new Date(Date.UTC(
-            year,
-            month - 1,
-            day,
-            hour24,
-            Number.parseInt(minute),
-            0
-          ) - (offsetMinutes * 60 * 1000))
-        } else {
-          // Fallback: assume UTC
-          console.warn("Could not parse timezone offset, using UTC")
-          startUtc = new Date(Date.UTC(year, month - 1, day, hour24, Number.parseInt(minute), 0))
-        }
-      } else {
-        // Fallback: assume UTC
-        console.warn("Could not get timezone offset, using UTC")
-        startUtc = new Date(Date.UTC(year, month - 1, day, hour24, Number.parseInt(minute), 0))
+      // Check if verification matches what we wanted
+      if (verifyHour !== hour24 || verifyMinute !== Number.parseInt(minute)) {
+        // Try one more iteration to handle edge cases (like DST transitions)
+        const verifyYear = Number.parseInt(verifyParts.find(p => p.type === 'year')!.value)
+        const verifyMonth = Number.parseInt(verifyParts.find(p => p.type === 'month')!.value)
+        const verifyDay = Number.parseInt(verifyParts.find(p => p.type === 'day')!.value)
+        const verifyTime = new Date(verifyYear, verifyMonth - 1, verifyDay, verifyHour, verifyMinute, 0).getTime()
+        const finalOffsetMs = wantedTime - verifyTime
+        startUtc = new Date(startUtc.getTime() + finalOffsetMs)
       }
     } catch (_e) {
       console.error("Date parsing error:", _e)
