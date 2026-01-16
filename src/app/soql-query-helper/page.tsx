@@ -95,7 +95,7 @@ export default function DataToolsPage() {
 
               <Button 
                 onClick={handleSoqlFormat} 
-                className="w-full bg-[#0070f3] hover:bg-[#0060df] text-foreground h-12 text-base font-medium"
+                className="w-full bg-[#0070f3] hover:bg-[#0060df] text-white h-12 text-base font-medium"
               >
                 Format for SOQL
               </Button>
@@ -149,7 +149,7 @@ export default function DataToolsPage() {
 
               <Button 
                 onClick={handleCommaSeparate} 
-                className="w-full bg-[#0070f3] hover:bg-[#0060df] text-foreground h-12 text-base font-medium"
+                className="w-full bg-[#0070f3] hover:bg-[#0060df] text-white h-12 text-base font-medium"
               >
                 Convert to Comma-Separated
               </Button>

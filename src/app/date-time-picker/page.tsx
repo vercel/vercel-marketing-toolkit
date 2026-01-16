@@ -339,7 +339,7 @@ export default function EventCreatorPage() {
 
                 <Button
                   onClick={handleGenerateSfdc}
-                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-foreground h-12 text-base font-medium mt-6"
+                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-white h-12 text-base font-medium mt-6"
                 >
                   Generate SFDC Format
                 </Button>
@@ -567,7 +567,7 @@ export default function EventCreatorPage() {
               <div className="mt-8">
                 <Button
                   onClick={handleGenerate}
-                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-foreground h-12 text-base font-medium flex items-center justify-center"
+                  className="w-full bg-[#0070f3] hover:bg-[#0060df] text-white h-12 text-base font-medium flex items-center justify-center"
                 >
                   <Sparkles className="mr-2 h-5 w-5" />
                   Generate Links

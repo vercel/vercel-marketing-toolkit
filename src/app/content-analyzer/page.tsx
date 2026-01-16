@@ -265,7 +265,7 @@ export default function ContentAnalyzerPage() {
               <Button
                 onClick={handleAnalyze}
                 disabled={isLoading || !contentType || (contentType !== "email" && !inputContent.trim())}
-                className="w-full bg-[#0070f3] hover:bg-[#0060df] text-foreground h-12 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#0070f3] hover:bg-[#0060df] text-white h-12 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
@@ -634,7 +634,7 @@ export default function ContentAnalyzerPage() {
           <div className="pt-4 border-t border-border flex gap-2">
             <Button
               onClick={handleCopyEdited}
-              className="flex-1 bg-[#0070f3] hover:bg-[#0060df] text-foreground"
+              className="flex-1 bg-[#0070f3] hover:bg-[#0060df] text-white"
             >
               {editCopied ? (
                 <>
