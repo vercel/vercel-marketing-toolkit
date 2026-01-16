@@ -62,6 +62,15 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: var(--font-geist-sans), sans-serif;
+  }
+
+  code, kbd, samp, pre {
+    font-family: var(--font-geist-mono), monospace;
+  }
+
+  .font-mono {
+    font-family: var(--font-geist-mono), monospace;
   }
 
   /* Force dark mode for input autofill */

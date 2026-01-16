@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
 import Navigation from '@/components/Navigation'
 import { ThemeProvider } from '@/components/theme-provider'
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.className} flex flex-col min-h-screen`}>
+      <body className={`${GeistSans.className} ${GeistMono.variable} flex flex-col min-h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
