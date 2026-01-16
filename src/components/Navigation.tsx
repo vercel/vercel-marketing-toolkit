@@ -9,9 +9,7 @@ export default function Navigation() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <div className="flex items-center justify-center w-8 h-8 rounded-md bg-foreground text-background">
-              <span className="text-lg font-bold">▲</span>
-            </div>
+            <span className="text-2xl font-bold">▲</span>
             <span className="font-semibold text-lg hidden sm:inline-block">Marketing Toolkit</span>
           </Link>
 
