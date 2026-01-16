@@ -5,45 +5,62 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
+import { Card, CardContent } from "@/components/ui/card"
+import { Upload, Download, Image as ImageIcon } from "lucide-react"
 
 const IMAGE_FORMATS = {
-  'og': { width: 1200, height: 630 },
-  'youtube': { width: 1280, height: 720 },
-  'email-small': { width: 600, height: 200 },
-  'email-large': { width: 600, height: 400 },
-  'banner': { width: 2048, height: 200 },
+  'og': { width: 1200, height: 630, label: 'Social Media OG' },
+  'youtube': { width: 1280, height: 720, label: 'YouTube Poster' },
+  'twitter': { width: 1200, height: 675, label: 'Twitter Post' },
+  'email': { width: 600, height: 400, label: 'Email Banner' },
+  'banner': { width: 1600, height: 400, label: 'Wide Banner' },
 }
 
+const VERCEL_BACKGROUNDS = [
+  { id: 'solid-black', name: 'Solid Black', color: '#000000' },
+  { id: 'solid-white', name: 'Solid White', color: '#FFFFFF' },
+  { id: 'gradient-dark', name: 'Dark Gradient', gradient: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)' },
+  { id: 'gradient-vercel', name: 'Vercel Gradient', gradient: 'linear-gradient(135deg, #000000 0%, #0070f3 100%)' },
+  { id: 'gradient-purple', name: 'Purple Gradient', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+  { id: 'gradient-ocean', name: 'Ocean Gradient', gradient: 'linear-gradient(135deg, #667eea 0%, #0070f3 100%)' },
+  { id: 'gradient-sunset', name: 'Sunset Gradient', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
+  { id: 'gradient-mint', name: 'Mint Gradient', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
+]
+
 type Position = 'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'middle-center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
-type FontStyle = 'regular' | 'bold' | 'bold italic'
 type LogoType = 'logotype' | 'icon'
 
 const BASE_URL = 'https://d1x0zcqhnlqelh.cloudfront.net/images/69d2b268e16ef23a7e81dd3abc50ec84/Vercel%20Logos/'
 
 export default function ImageGenerator() {
-  const [text, setText] = useState('')
+  const [text, setText] = useState('Build and ship with Vercel')
   const [format, setFormat] = useState('og')
   const [textPosition, setTextPosition] = useState<Position>('middle-center')
-  const [fontStyle, setFontStyle] = useState<FontStyle>('bold')
-  const [logoPosition, setLogoPosition] = useState<Position>('top-left')
+  const [logoPosition, setLogoPosition] = useState<Position>('bottom-left')
   const [logoType, setLogoType] = useState<LogoType>('logotype')
-  const [isDarkMode, setIsDarkMode] = useState(true)
-  const [logoSize, setLogoSize] = useState(15)
-  const [textSize, setTextSize] = useState(15)
+  const [showLogo, setShowLogo] = useState(true)
+  const [logoSize, setLogoSize] = useState(12)
+  const [textSize, setTextSize] = useState(8)
+  const [selectedBackground, setSelectedBackground] = useState('solid-black')
+  const [customBackground, setCustomBackground] = useState<string | null>(null)
+  const [textColor, setTextColor] = useState('#FFFFFF')
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [vercelLogo, setVercelLogo] = useState<HTMLImageElement | null>(null)
+
+  const isDarkBg = selectedBackground.includes('dark') || selectedBackground === 'solid-black' || selectedBackground.includes('vercel')
 
   useEffect(() => {
     const loadImage = () => {
       const img = new Image()
       img.crossOrigin = "anonymous"
-      img.src = `${BASE_URL}vercel-${logoType}-${isDarkMode ? 'light' : 'dark'}.png`
+      img.src = `${BASE_URL}vercel-${logoType}-${isDarkBg ? 'light' : 'dark'}.png`
       img.onload = () => setVercelLogo(img)
     }
     loadImage()
-  }, [logoType, isDarkMode])
+  }, [logoType, isDarkBg])
 
   const drawImage = useCallback(() => {
     const canvas = canvasRef.current
@@ -56,23 +73,47 @@ export default function ImageGenerator() {
     canvas.width = width
     canvas.height = height
 
-    ctx.fillStyle = isDarkMode ? '#000000' : '#ffffff'
-    ctx.fillRect(0, 0, width, height)
+    // Draw background
+    if (customBackground) {
+      const img = new Image()
+      img.src = customBackground
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, width, height)
+        drawContent(ctx, width, height)
+      }
+    } else {
+      const bg = VERCEL_BACKGROUNDS.find(b => b.id === selectedBackground)
+      if (bg) {
+        if (bg.gradient) {
+          const gradient = ctx.createLinearGradient(0, 0, width, height)
+          const colors = bg.gradient.match(/#[0-9a-f]{6}/gi) || ['#000000', '#000000']
+          gradient.addColorStop(0, colors[0])
+          gradient.addColorStop(1, colors[1])
+          ctx.fillStyle = gradient
+        } else {
+          ctx.fillStyle = bg.color || '#000000'
+        }
+        ctx.fillRect(0, 0, width, height)
+      }
+      drawContent(ctx, width, height)
+    }
+  }, [text, format, vercelLogo, textPosition, logoPosition, logoSize, textSize, selectedBackground, customBackground, showLogo, textColor, logoType, isDarkBg])
 
-    if (vercelLogo) {
+  const drawContent = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // Draw logo
+    if (showLogo && vercelLogo) {
       const logoHeight = Math.min(height * (logoSize / 100), height)
       const logoWidth = (logoHeight / vercelLogo.height) * vercelLogo.width
       const [logoX, logoY] = getPosition(logoPosition, width, height, logoWidth, logoHeight)
       ctx.drawImage(vercelLogo, logoX, logoY, logoWidth, logoHeight)
     }
 
-    ctx.fillStyle = isDarkMode ? '#ffffff' : '#000000'
+    // Draw text
+    ctx.fillStyle = textColor
     ctx.textBaseline = 'top'
 
-    const fontWeight = fontStyle.includes('bold') ? 'bold' : 'normal'
-    const fontStyleText = fontStyle.includes('italic') ? 'italic' : 'normal'
     const fontSize = Math.floor(height * (textSize / 100))
-    ctx.font = `${fontWeight} ${fontStyleText} ${fontSize}px Arial, sans-serif`
+    ctx.font = `bold ${fontSize}px "Geist", -apple-system, BlinkMacSystemFont, sans-serif`
 
     const padding = Math.floor(width / 20)
     const maxWidth = width - (padding * 2)
@@ -92,7 +133,7 @@ export default function ImageGenerator() {
     }
     lines.push(currentLine)
 
-    const lineHeight = fontSize * 1.2
+    const lineHeight = fontSize * 1.3
     const totalTextHeight = lines.length * lineHeight
 
     let textX: number
@@ -140,7 +181,7 @@ export default function ImageGenerator() {
     lines.forEach((line, index) => {
       ctx.fillText(line, textX, textY + index * lineHeight)
     })
-  }, [text, format, vercelLogo, textPosition, fontStyle, logoPosition, isDarkMode, logoSize, textSize])
+  }
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -153,12 +194,24 @@ export default function ImageGenerator() {
     if (!canvas) return
     try {
       const link = document.createElement('a')
-      link.download = `vercel-image-${format}.png`
+      link.download = `vercel-image-${format}-${Date.now()}.png`
       link.href = canvas.toDataURL('image/png')
       link.click()
     } catch (error) {
       console.error("Failed to export image:", error)
       alert("Failed to export image. Please try again.")
+    }
+  }
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        setCustomBackground(event.target?.result as string)
+        setSelectedBackground('custom')
+      }
+      reader.readAsDataURL(file)
     }
   }
 
@@ -207,114 +260,235 @@ export default function ImageGenerator() {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-4 p-4">
-      <h1 className="text-2xl font-bold">Vercel Image Generator</h1>
-      <Input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Enter your text here"
-        className="w-full max-w-md"
-      />
-      <Select value={format} onValueChange={(value: string) => setFormat(value)}>
-        <SelectTrigger className="w-full max-w-md">
-          <SelectValue placeholder="Select image format" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="og">Social Media OG (1200x630)</SelectItem>
-          <SelectItem value="youtube">YouTube Poster (1280x720)</SelectItem>
-          <SelectItem value="email-small">Email Banner Small (600x200)</SelectItem>
-          <SelectItem value="email-large">Email Banner Large (600x400)</SelectItem>
-          <SelectItem value="banner">Banner (2048x100)</SelectItem>
-        </SelectContent>
-      </Select>
-      <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-        <div>
-          <Label className="mb-2 block">Text Position</Label>
-          <Select value={textPosition} onValueChange={(value: Position) => setTextPosition(value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select text position" />
-            </SelectTrigger>
-            <SelectContent>
-              {(['top-left', 'top-center', 'top-right', 'middle-left', 'middle-center', 'middle-right', 'bottom-left', 'bottom-center', 'bottom-right'] as const).map((pos) => (
-                <SelectItem key={pos} value={pos}>{pos.replace('-', ' ')}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div className="container mx-auto p-6 max-w-7xl">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Image Generator</h1>
+        <p className="text-muted-foreground">Create branded marketing images with customizable layouts and backgrounds</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Controls Panel */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Text Settings */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <div>
+                <Label className="text-sm font-semibold mb-2 block">Text Content</Label>
+                <Input
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder="Enter your text..."
+                  className="w-full"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label className="text-xs text-muted-foreground mb-2 block">Position</Label>
+                  <Select value={textPosition} onValueChange={(value: Position) => setTextPosition(value)}>
+                    <SelectTrigger className="h-9">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(['top-left', 'top-center', 'top-right', 'middle-left', 'middle-center', 'middle-right', 'bottom-left', 'bottom-center', 'bottom-right'] as const).map((pos) => (
+                        <SelectItem key={pos} value={pos}>{pos.split('-').join(' ')}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-muted-foreground mb-2 block">Color</Label>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setTextColor('#FFFFFF')}
+                      className={`h-9 w-9 rounded border-2 ${textColor === '#FFFFFF' ? 'border-foreground' : 'border-border'}`}
+                      style={{ background: '#FFFFFF' }}
+                    />
+                    <button
+                      onClick={() => setTextColor('#000000')}
+                      className={`h-9 w-9 rounded border-2 ${textColor === '#000000' ? 'border-foreground' : 'border-border'}`}
+                      style={{ background: '#000000' }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">Text Size: {textSize}%</Label>
+                <Slider
+                  min={4}
+                  max={20}
+                  step={1}
+                  value={[textSize]}
+                  onValueChange={(value) => setTextSize(value[0])}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Logo Settings */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-semibold">Vercel Logo</Label>
+                <button
+                  onClick={() => setShowLogo(!showLogo)}
+                  className="text-xs px-3 py-1 rounded-md bg-accent hover:bg-accent/80 transition-colors"
+                >
+                  {showLogo ? 'Hide' : 'Show'}
+                </button>
+              </div>
+
+              {showLogo && (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-xs text-muted-foreground mb-2 block">Type</Label>
+                      <Select value={logoType} onValueChange={(value: LogoType) => setLogoType(value)}>
+                        <SelectTrigger className="h-9">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="logotype">Logotype</SelectItem>
+                          <SelectItem value="icon">Icon</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label className="text-xs text-muted-foreground mb-2 block">Position</Label>
+                      <Select value={logoPosition} onValueChange={(value: Position) => setLogoPosition(value)}>
+                        <SelectTrigger className="h-9">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {(['top-left', 'top-center', 'top-right', 'middle-left', 'middle-center', 'middle-right', 'bottom-left', 'bottom-center', 'bottom-right'] as const).map((pos) => (
+                            <SelectItem key={pos} value={pos}>{pos.split('-').join(' ')}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label className="text-xs text-muted-foreground mb-2 block">Logo Size: {logoSize}%</Label>
+                    <Slider
+                      min={5}
+                      max={30}
+                      step={1}
+                      value={[logoSize]}
+                      onValueChange={(value) => setLogoSize(value[0])}
+                    />
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Format Settings */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <div>
+                <Label className="text-sm font-semibold mb-2 block">Image Format</Label>
+                <Select value={format} onValueChange={setFormat}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(IMAGE_FORMATS).map(([key, { width, height, label }]) => (
+                      <SelectItem key={key} value={key}>
+                        {label} ({width}×{height})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <div>
-          <Label className="mb-2 block">Font Style</Label>
-          <Select value={fontStyle} onValueChange={(value: FontStyle) => setFontStyle(value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select font style" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="regular">Regular</SelectItem>
-              <SelectItem value="bold">Bold</SelectItem>
-              <SelectItem value="bold italic">Bold Italic</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label className="mb-2 block">Logo Position</Label>
-          <Select value={logoPosition} onValueChange={(value: Position) => setLogoPosition(value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select logo position" />
-            </SelectTrigger>
-            <SelectContent>
-              {(['top-left', 'top-center', 'top-right', 'middle-left', 'middle-center', 'middle-right', 'bottom-left', 'bottom-center', 'bottom-right'] as const).map((pos) => (
-                <SelectItem key={pos} value={pos}>{pos.replace('-', ' ')}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label className="mb-2 block">Logo Type</Label>
-          <Select value={logoType} onValueChange={(value: LogoType) => setLogoType(value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select logo type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="logotype">Logotype</SelectItem>
-              <SelectItem value="icon">Icon</SelectItem>
-            </SelectContent>
-          </Select>
+
+        {/* Preview & Background Panel */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Background Selection */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-semibold">Background</Label>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="gap-2"
+                >
+                  <Upload className="h-4 w-4" />
+                  Upload Custom
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </div>
+
+              <div className="grid grid-cols-4 gap-3">
+                {VERCEL_BACKGROUNDS.map((bg) => (
+                  <button
+                    key={bg.id}
+                    onClick={() => {
+                      setSelectedBackground(bg.id)
+                      setCustomBackground(null)
+                    }}
+                    className={`h-16 rounded-lg border-2 transition-all ${
+                      selectedBackground === bg.id ? 'border-foreground ring-2 ring-ring' : 'border-border hover:border-foreground/50'
+                    }`}
+                    style={{
+                      background: bg.gradient || bg.color,
+                    }}
+                    title={bg.name}
+                  />
+                ))}
+                {customBackground && (
+                  <button
+                    onClick={() => setSelectedBackground('custom')}
+                    className={`h-16 rounded-lg border-2 transition-all ${
+                      selectedBackground === 'custom' ? 'border-foreground ring-2 ring-ring' : 'border-border hover:border-foreground/50'
+                    }`}
+                    style={{
+                      backgroundImage: `url(${customBackground})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                    title="Custom Background"
+                  />
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Preview */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between mb-4">
+                <Label className="text-sm font-semibold">Preview</Label>
+                <Button onClick={handleExport} className="gap-2">
+                  <Download className="h-4 w-4" />
+                  Export PNG
+                </Button>
+              </div>
+              <div className="bg-muted rounded-lg p-4 overflow-auto">
+                <canvas
+                  ref={canvasRef}
+                  className="w-full h-auto border border-border rounded shadow-lg"
+                  style={{ maxHeight: '600px' }}
+                />
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
-      <div className="w-full max-w-md space-y-4">
-        <div>
-          <Label className="mb-2 block">Logo Size</Label>
-          <Slider
-            min={1}
-            max={100}
-            step={1}
-            value={[logoSize]}
-            onValueChange={(value) => setLogoSize(value[0])}
-          />
-        </div>
-        <div>
-          <Label className="mb-2 block">Text Size</Label>
-          <Slider
-            min={1}
-            max={30}
-            step={1}
-            value={[textSize]}
-            onValueChange={(value) => setTextSize(value[0])}
-          />
-        </div>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="dark-mode"
-          checked={isDarkMode}
-          onCheckedChange={setIsDarkMode}
-        />
-        <Label htmlFor="dark-mode">Dark Mode</Label>
-      </div>
-      <div style={{ width: '100%', maxWidth: '600px', overflow: 'auto' }}>
-        <canvas ref={canvasRef} className="border border-gray-300" style={{ width: '100%', height: 'auto' }} />
-      </div>
-      <Button onClick={handleExport} className="bg-blue-500 hover:bg-blue-800 text-white">Export Image</Button>
     </div>
   )
 }
