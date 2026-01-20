@@ -14,6 +14,7 @@ const navItems = [
   { href: '/content-analyzer', label: 'Content' },
   { href: '/email-review', label: 'Email Review' },
   { href: '/soql-query-helper', label: 'Data Tools' },
+  { href: '/list-import', label: 'List Import' },
 ]
 
 export default function Navigation() {
