@@ -31,7 +31,7 @@ export interface TrayRecord {
   campaign_id?: string
   campaign_status?: string
   account_hq_billing_country?: string
-  opted_in: string | boolean  // Required - cannot be empty
+  opted_in?: string | boolean  // Required - cannot be empty
   
   // Optional fields
   title?: string
