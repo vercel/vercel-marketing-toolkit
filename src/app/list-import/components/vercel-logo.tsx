@@ -1,7 +1,9 @@
-export function VercelLogo({ className }: { className?: string }) {
+export function VercelLogo({ className, size }: { className?: string; size?: number }) {
   return (
     <svg
       className={className}
+      width={size}
+      height={size}
       viewBox="0 0 284 65"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
