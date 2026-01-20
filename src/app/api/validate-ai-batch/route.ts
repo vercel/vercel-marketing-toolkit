@@ -136,7 +136,6 @@ Output format:
     model: openai(ENV.GPT_MODEL),
     prompt,
     temperature: ENV.GPT_TEMPERATURE,
-    maxTokens: ENV.GPT_MAX_TOKENS,
   })
 
   let result: GPTValidationResult

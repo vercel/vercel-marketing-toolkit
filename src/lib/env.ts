@@ -9,5 +9,4 @@ export const ENV = {
   MAX_FILE_MB: Number.parseInt(process.env.MAX_FILE_MB || "25"),
   GPT_MODEL: process.env.GPT_MODEL || "gpt-4o-mini",
   GPT_TEMPERATURE: 0, // Zero temperature for deterministic, consistent results
-  GPT_MAX_TOKENS: 400, // Balanced for detailed reasoning without timeout
 }
