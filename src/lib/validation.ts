@@ -132,8 +132,8 @@ export function cleanName(name: string): string {
     // Remove HTML entities that weren't decoded
     .replace(/&[a-z]+;/gi, '')
     .replace(/&#\d+;/g, '')
-    // Remove emoji
-    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    // Remove emoji and symbols (using surrogate pairs for emoji)
+    .replace(/[\uD800-\uDFFF]/g, '')
     // Remove other problematic Unicode ranges (symbols, dingbats)
     .replace(/[\u2600-\u26FF\u2700-\u27BF]/g, '')
   

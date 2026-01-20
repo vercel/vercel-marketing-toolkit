@@ -199,6 +199,7 @@ async function validateAndNormalizeRow(
     flags: [],
     suggestedFixes: {},
     reasons: {},
+    normalizedData: {},
   }
 
   // Required field validation - email

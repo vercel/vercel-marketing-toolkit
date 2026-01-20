@@ -89,7 +89,7 @@ export function UploadStage({ importType, onImportTypeChange, onNext }: UploadSt
     })
     
     // Remove duplicates
-    suspiciousDataRows = [...new Set(suspiciousDataRows)]
+    suspiciousDataRows = Array.from(new Set(suspiciousDataRows))
     
     if (misalignedRows > 0) {
       warnings.push(`${misalignedRows} row(s) have incorrect column count (expected ${headerCount} columns)`)

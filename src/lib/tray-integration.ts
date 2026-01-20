@@ -90,6 +90,7 @@ export async function sendToScoring(
   processedRows: ProcessedRow[],
   filename?: string,
   googleSheetId?: string,
+  isDeferred?: boolean,
 ): Promise<TrayResponse> {
   try {
     const response = await fetch("/api/send-to-scoring", {
@@ -101,6 +102,7 @@ export async function sendToScoring(
         processedRows,
         filename,
         googleSheetId,
+        isDeferred,
       }),
     })
 

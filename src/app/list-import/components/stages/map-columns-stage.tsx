@@ -107,8 +107,8 @@ export function MapColumnsStage({ csvData, columnMapping, importType, onMappingC
     onNext()
   }
 
-  const getMappedFields = () => {
-    return Object.values(mapping).filter(Boolean)
+  const getMappedFields = (): string[] => {
+    return Object.values(mapping).filter((field): field is string => field !== null)
   }
 
   const getUnmappedColumns = () => {

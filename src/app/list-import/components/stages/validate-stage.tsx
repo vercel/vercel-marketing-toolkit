@@ -284,7 +284,7 @@ export function ValidateStage({
                 <div className="flex items-center justify-between p-4 bg-secondary rounded-lg">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center space-x-2">
-                      <Checkbox id="bulk-gpt" checked={bulkApplyGPT} onCheckedChange={setBulkApplyGPT} />
+                      <Checkbox id="bulk-gpt" checked={bulkApplyGPT} onCheckedChange={(checked) => setBulkApplyGPT(checked === true)} />
                       <label htmlFor="bulk-gpt" className="text-sm font-medium">
                         Apply all GPT-5 suggestions
                       </label>
