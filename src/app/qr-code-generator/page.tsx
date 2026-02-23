@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { QRCodeSVG } from 'qrcode.react'
+import React, { useState, useRef, useCallback } from 'react'
+import { QRCodeCanvas } from 'qrcode.react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,18 @@ export default function QRCodeGenerator() {
   const [url, setUrl] = useState('https://vercel.com')
   const [size, setSize] = useState(256)
   const [iconSize, setIconSize] = useState(64)
+  const qrRef = useRef<HTMLDivElement>(null)
+
+  const handleDownload = useCallback(() => {
+    const canvas = qrRef.current?.querySelector('canvas')
+    if (canvas) {
+      const pngFile = canvas.toDataURL('image/png')
+      const downloadLink = document.createElement('a')
+      downloadLink.download = 'vercel-qr-code.png'
+      downloadLink.href = pngFile
+      downloadLink.click()
+    }
+  }, [])
 
   return (
     <Card className="w-full max-w-md mx-auto border-none shadow-none">
@@ -50,8 +62,8 @@ export default function QRCodeGenerator() {
             max="128"
           />
         </div>
-        <div className="flex justify-center">
-          <QRCodeSVG
+        <div className="flex justify-center" ref={qrRef}>
+          <QRCodeCanvas
             value={url}
             size={size}
             level="H"
@@ -70,26 +82,7 @@ export default function QRCodeGenerator() {
         <div className="flex justify-center">
           <Button
             className="bg-blue-500 hover:bg-blue-800 text-white"
-            onClick={() => {
-              const svg = document.querySelector('svg')
-              if (svg) {
-                const svgData = new XMLSerializer().serializeToString(svg)
-                const canvas = document.createElement('canvas')
-                const ctx = canvas.getContext('2d')
-                const img = new Image()
-                img.onload = () => {
-                  canvas.width = size
-                  canvas.height = size
-                  ctx?.drawImage(img, 0, 0)
-                  const pngFile = canvas.toDataURL('image/png')
-                  const downloadLink = document.createElement('a')
-                  downloadLink.download = 'vercel-qr-code.png'
-                  downloadLink.href = pngFile
-                  downloadLink.click()
-                }
-                img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
-              }
-            }}
+            onClick={handleDownload}
           >
             Download QR Code
           </Button>
