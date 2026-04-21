@@ -1,19 +1,11 @@
 "use server"
 
 import { generateObject, generateText } from "ai"
-import { createOpenAI } from "@ai-sdk/openai"
-
-// Use Vercel AI Gateway when VERCEL_AI_GATEWAY is set, otherwise direct OpenAI
-const useGateway = process.env.USE_VERCEL_AI_GATEWAY === "true"
-
-const openai = createOpenAI({
-  baseURL: useGateway 
-    ? "https://gateway.ai.vercel.app/v1" 
-    : undefined, // undefined = use default OpenAI URL
-  apiKey: process.env.OPENAI_API_KEY,
-})
 import { z } from "zod"
 import * as cheerio from "cheerio"
+
+const PRIMARY_MODEL = "anthropic/claude-sonnet-4-6"
+const FALLBACK_MODEL = "anthropic/claude-haiku-4-5"
 
 // --- Zod Schemas ---
 const UtmIssueSchema = z.object({
@@ -632,7 +624,7 @@ VERCEL STYLE GUIDE PRINCIPLES:
 
   // --- AI Analysis with fallback to cheaper model ---
   let qualitativeAnalysisResult: QualitativeAnalysis
-  let usedModel = "gpt-4o"
+  let usedModel: string = PRIMARY_MODEL
 
   const aiPrompt = `You are an Email Quality Assurance agent for Vercel. Analyze the following email content with extreme attention to detail using the official Vercel Style Guide.
 
@@ -707,30 +699,28 @@ Perform these comprehensive checks using the Vercel Style Guide above:
 `
 
   try {
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error("OPENAI_API_KEY environment variable is not configured")
+    if (!process.env.AI_GATEWAY_API_KEY) {
+      throw new Error("AI_GATEWAY_API_KEY environment variable is not configured")
     }
 
-    // Try with gpt-4o first
     try {
       const { object } = await generateObject({
-        model: openai("gpt-4o"),
+        model: PRIMARY_MODEL,
         schema: QualitativeAnalysisSchema,
         prompt: aiPrompt,
       })
       qualitativeAnalysisResult = object
-      usedModel = "gpt-4o"
+      usedModel = PRIMARY_MODEL
     } catch (primaryError) {
-      // If primary model fails (quota, rate limit, etc.), fallback to gpt-4o-mini
-      console.log("Primary model failed, falling back to gpt-4o-mini:", primaryError)
-      
+      console.log(`Primary model failed, falling back to ${FALLBACK_MODEL}:`, primaryError)
+
       const { object } = await generateObject({
-        model: openai("gpt-4o-mini"),
+        model: FALLBACK_MODEL,
         schema: QualitativeAnalysisSchema,
         prompt: aiPrompt,
       })
       qualitativeAnalysisResult = object
-      usedModel = "gpt-4o-mini"
+      usedModel = FALLBACK_MODEL
     }
   } catch (error) {
     // Return partial results with error message
@@ -742,7 +732,7 @@ Perform these comprehensive checks using the Vercel Style Guide above:
         typos: [],
         grammarErrors: [],
         toneAnalysis: "AI analysis unavailable - check API key configuration",
-        suggestions: ["Configure OPENAI_API_KEY in environment variables"],
+        suggestions: ["Configure AI_GATEWAY_API_KEY in environment variables"],
         overallScore: 0,
         subjectLineAnalysis: null,
         previewTextAnalysis: null,
@@ -787,11 +777,11 @@ export async function optimizeEmailHtmlAction(emailHtml: string): Promise<Optimi
     }
   }
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!process.env.AI_GATEWAY_API_KEY) {
     return {
       optimizedHtml: "",
       changes: [],
-      error: "OPENAI_API_KEY environment variable is not configured",
+      error: "AI_GATEWAY_API_KEY environment variable is not configured",
     }
   }
 
@@ -891,7 +881,7 @@ Respond with ONLY valid JSON, no markdown.`
 
   try {
     const { text } = await generateText({
-      model: openai("gpt-4o"),
+      model: PRIMARY_MODEL,
       prompt: optimizePrompt,
     })
 
@@ -942,7 +932,7 @@ Respond with ONLY valid JSON, no markdown.`
     // Try with fallback model
     try {
       const { text } = await generateText({
-        model: openai("gpt-4o-mini"),
+        model: FALLBACK_MODEL,
         prompt: optimizePrompt,
       })
 

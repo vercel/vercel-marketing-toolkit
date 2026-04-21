@@ -1,4 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { generateObject } from 'ai'
+import { z } from 'zod'
+
+const MODEL = 'anthropic/claude-haiku-4-5'
+
+const EmailResponseSchema = z.object({
+  emailContent: z.object({
+    subject: z.string(),
+    preheader: z.string(),
+    body: z.string(),
+  }),
+  improvements: z.array(z.string()),
+})
+
+const ContentResponseSchema = z.object({
+  rewrittenContent: z.string(),
+  improvements: z.array(z.string()),
+})
 
 const VERCEL_STYLE_GUIDE = `
 You are an expert copywriter specializing in Vercel's brand voice and style guide. 
@@ -129,11 +147,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const apiKey = process.env.OPENAI_API_KEY
-    
-    if (!apiKey) {
+    if (!process.env.AI_GATEWAY_API_KEY) {
       return NextResponse.json(
-        { error: 'OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.' },
+        { error: 'AI Gateway not configured. Please add AI_GATEWAY_API_KEY to your environment variables.' },
         { status: 500 }
       )
     }
@@ -194,69 +210,27 @@ Focus on making the content sound like Vercel: confident yet humble, specific, c
       userContent = content
     }
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini', // You can change this to gpt-4o, gpt-4-turbo, or claude models
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt,
-          },
-          {
-            role: 'user',
-            content: userContent,
-          },
-        ],
-        temperature: 0.7,
-        response_format: { type: 'json_object' },
-      }),
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json()
-      console.error('OpenAI API Error:', errorData)
-      return NextResponse.json(
-        { error: 'Failed to analyze content with AI' },
-        { status: response.status }
-      )
-    }
-
-    const data = await response.json()
-    const result = JSON.parse(data.choices[0].message.content)
-
-    console.log('API Response Result:', result)
-
     if (isEmail) {
-      return NextResponse.json({
-        emailContent: {
-          subject: typeof result.emailContent?.subject === 'string' ? result.emailContent.subject : '',
-          preheader: typeof result.emailContent?.preheader === 'string' ? result.emailContent.preheader : '',
-          body: typeof result.emailContent?.body === 'string' ? result.emailContent.body : '',
-        },
-        improvements: Array.isArray(result.improvements) ? result.improvements : [],
+      const { object } = await generateObject({
+        model: MODEL,
+        schema: EmailResponseSchema,
+        system: systemPrompt,
+        prompt: userContent,
+        temperature: 0.7,
       })
+
+      return NextResponse.json(object)
     }
 
-    // Ensure rewrittenContent is a string, not an object
-    let rewrittenContent = result.rewrittenContent
-    if (typeof rewrittenContent !== 'string') {
-      // If it's an object, try to extract text from it
-      if (typeof rewrittenContent === 'object' && rewrittenContent !== null) {
-        rewrittenContent = JSON.stringify(rewrittenContent, null, 2)
-      } else {
-        rewrittenContent = String(rewrittenContent || '')
-      }
-    }
-
-    return NextResponse.json({
-      rewrittenContent: rewrittenContent,
-      improvements: Array.isArray(result.improvements) ? result.improvements : [],
+    const { object } = await generateObject({
+      model: MODEL,
+      schema: ContentResponseSchema,
+      system: systemPrompt,
+      prompt: userContent,
+      temperature: 0.7,
     })
+
+    return NextResponse.json(object)
 
   } catch (error) {
     console.error('Error in analyze-content API:', error)
