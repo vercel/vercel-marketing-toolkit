@@ -215,7 +215,10 @@ export default function EventCreatorPage() {
     const endUtc = new Date(startUtc.getTime() + Number.parseInt(duration) * 60 * 1000)
 
     // 3. Format for Links & Date/Time
+    // Google Calendar uses compact UTC format: 20260617T090000Z
     const toGoogleCalendarFormat = (d: Date) => d.toISOString().replace(/[-:.]/g, "").slice(0, 15) + "Z"
+    // Agical.io uses ISO 8601 with separators: 2026-06-17T09:00:00Z
+    const toAgicalFormat = (d: Date) => d.toISOString().replace(/\.\d{3}Z$/, "Z")
     const startUtcFormatted = toGoogleCalendarFormat(startUtc)
     const endUtcFormatted = toGoogleCalendarFormat(endUtc)
 
@@ -223,7 +226,7 @@ export default function EventCreatorPage() {
     const encodedDescription = encodeURIComponent(description)
 
     const googleLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodedEventName}&dates=${startUtcFormatted}/${endUtcFormatted}&details=${encodedDescription}&ctz=${timezone}`
-    const agicalLink = `https://ics.agical.io/?startdt=${startUtcFormatted}&enddt=${endUtcFormatted}&subject=${encodedEventName}&description=${encodedDescription}`
+    const agicalLink = `https://ics.agical.io/?dtstart=${toAgicalFormat(startUtc)}&dtend=${toAgicalFormat(endUtc)}&subject=${encodedEventName}&description=${encodedDescription}`
     const formattedDateTime = formatDate(startUtc, customFormat, timezone)
 
     setGeneratedOutput({
