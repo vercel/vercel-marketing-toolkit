@@ -7,7 +7,8 @@ import {
   ScanSearch,
   QrCode,
   Sparkles,
-  Mail
+  Mail,
+  BookOpen
 } from 'lucide-react'
 
 const tools = [
@@ -73,6 +74,14 @@ const tools = [
     title: 'SOQL Query Helper',
     description: 'Generate and test Salesforce SOQL queries',
     color: 'from-pink-500/40 to-pink-500/40 hover:from-pink-500/50 hover:to-pink-500/50 dark:from-pink-300/20 dark:to-pink-300/20 dark:hover:from-pink-300/30 dark:hover:to-pink-300/30',
+    lightText: false
+  },
+  {
+    href: '/email-guidelines',
+    icon: BookOpen,
+    title: 'Email Guidelines',
+    description: 'Voice, tone, and formatting standards for marketing emails',
+    color: 'from-indigo-500/40 to-indigo-500/40 hover:from-indigo-500/50 hover:to-indigo-500/50 dark:from-indigo-300/20 dark:to-indigo-300/20 dark:hover:from-indigo-300/30 dark:hover:to-indigo-300/30',
     lightText: false
   },
 ]
