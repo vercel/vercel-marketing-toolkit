@@ -60,6 +60,7 @@ export default function EventCreatorPage() {
   // --- STATE MANAGEMENT ---
   const [eventName, setEventName] = useState("")
   const [description, setDescription] = useState("")
+  const [location, setLocation] = useState("")
   const [date, setDate] = useState<Date>()
   const [hour, setHour] = useState("10")
   const [minute, setMinute] = useState("00")
@@ -224,9 +225,10 @@ export default function EventCreatorPage() {
 
     const encodedEventName = encodeURIComponent(eventName)
     const encodedDescription = encodeURIComponent(description)
+    const encodedLocation = encodeURIComponent(location)
 
-    const googleLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodedEventName}&dates=${startUtcFormatted}/${endUtcFormatted}&details=${encodedDescription}&ctz=${timezone}`
-    const agicalLink = `https://ics.agical.io/?dtstart=${toAgicalFormat(startUtc)}&dtend=${toAgicalFormat(endUtc)}&subject=${encodedEventName}&description=${encodedDescription}`
+    const googleLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodedEventName}&dates=${startUtcFormatted}/${endUtcFormatted}&details=${encodedDescription}&location=${encodedLocation}&ctz=${timezone}`
+    const agicalLink = `https://ics.agical.io/?dtstart=${toAgicalFormat(startUtc)}&dtend=${toAgicalFormat(endUtc)}&subject=${encodedEventName}&description=${encodedDescription}&location=${encodedLocation}`
     const formattedDateTime = formatDate(startUtc, customFormat, timezone)
 
     setGeneratedOutput({
@@ -428,6 +430,18 @@ export default function EventCreatorPage() {
                       className="bg-card border-input text-foreground placeholder:text-muted-foreground mt-1"
                       placeholder="e.g., The body of the invite (venue info, links, etc.)."
                       rows={5}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="location" className="text-muted-foreground text-sm font-medium">
+                      Location
+                    </Label>
+                    <Input
+                      id="location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      className="bg-card border-input text-foreground placeholder:text-muted-foreground mt-1"
+                      placeholder="e.g., 123 Main St, San Francisco, CA"
                     />
                   </div>
                 </div>
